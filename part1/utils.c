@@ -106,6 +106,9 @@ uint32_t getIndex(cache_t* cache, uint32_t address) {
 */
 uint32_t getOffset(cache_t* cache, uint32_t address) {
 	/* Your Code Here. */
+    uint32_t temp = address;
+    temp = temp << (32 - log_2(cache->blockDataSize));
+    temp = temp >> (32 - log_2(cache->blockDataSize));
 	return 0;
 }
 
@@ -114,7 +117,7 @@ uint32_t getOffset(cache_t* cache, uint32_t address) {
 */
 uint32_t getNumSets(cache_t* cache) {
 	/* Your Code Here. */
-	return cache->totalDataSize/ cache->blockDataSize/cache->n;
+	return (cache->totalDataSize/ cache->blockDataSize)/cache->n;
 }
 
 /*
@@ -132,7 +135,7 @@ uint8_t getTagSize(cache_t* cache) {
 */
 uint8_t numLRUBits(cache_t* cache) {
 	/* Your Code Here. */
-	return 0;
+	return log_2(getNumSets(cache));
 }
 
 /*
@@ -140,7 +143,7 @@ uint8_t numLRUBits(cache_t* cache) {
 */
 uint64_t totalBlockBits(cache_t* cache) {
 	/* Your Code Here. */
-	return 0;
+	return 8*(cache->blockDataSize)+3+numLRUBits; // offset bits + dirty bit + valid bit +lru
 }
 
 /*
@@ -148,7 +151,7 @@ uint64_t totalBlockBits(cache_t* cache) {
 */
 uint64_t cacheSizeBits(cache_t* cache) {
 	/* Your Code Here. */
-	return 0;
+	return (cache->cacheSizeBits/ cache->blockDataSize)*totalBlockBits(cache) ;
 }
 
 /*
