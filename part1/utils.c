@@ -43,12 +43,24 @@ void physicalMemFailed() {
 */ 
 cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, char* physicalMemoryName) {
 	/* Your Code Here. */
+    if(n%2!=0 || blockDataSize%2!=0 || totalDataSize%2!=0 || !physicalMemoryName){
+        invalidCache();
+        return NULL;
+    }
+    cache_t* newCache = (cache_t*) malloc(sizeof(cache_t));
+    if(!newCache) {allocationFailed();return NULL;}
+    newCache->physicalMemoryName = malloc(sizeof(char)*(strlen(physicalMemoryName)+1));
+    if(!newCache->physicalMemoryName) {allocationFailed();return NULL;}
+    strcpy(newCache->physicalMemoryName, physicalMemoryName);
+    newCache->n = n;
+    newCache->blockDataSize = blockDataSize;
+    newCache->totalDataSize = totalDataSize;
 	if (access(physicalMemoryName, F_OK) == -1) {
 		physicalMemFailed();
 		return NULL;
 	}
 	/* Your Code Here. */
-	return NULL;
+	return newCache;
 }
 
 /*
