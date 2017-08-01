@@ -94,9 +94,9 @@ uint32_t getIndex(cache_t* cache, uint32_t address) {
     uint32_t indexBits = cache->cacheSizeBits / cache->blockDataSize / cache->n;
     uint8_t index = log_2(indexBits);
     uint32_t temp = address;
-    temp = temp << (32-index-)
-    temp = temp >> log_2(cache->blockDataSize);
-	return 0;
+    temp = temp << getTagSize(cache); // remove leading tag bits
+    temp = temp >> (log_2(cache->blockDataSize)+getTagSize(cache)); // shift left to remove 0s and offset bits
+	return temp;
 }
 
 /*
@@ -123,7 +123,7 @@ uint32_t getNumSets(cache_t* cache) {
 uint8_t getTagSize(cache_t* cache) {
 	/* Your Code Here. */
     
-	return 32-log_2(cache->blockDataSize)-log_2(cache->totalDataSize/ cache->blockDataSize/ );
+	return 32-log_2(cache->blockDataSize)-log_2(getNumSets(cache));
 }
 
 /*
