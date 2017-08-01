@@ -43,7 +43,7 @@ void physicalMemFailed() {
 */ 
 cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, char* physicalMemoryName) {
 	/* Your Code Here. */
-    if(n%2!=0 || blockDataSize%2!=0 || totalDataSize%2!=0 || !physicalMemoryName){
+    if(oneBitOn(n) || oneBitOn(blockDataSize) || oneBitOn(totalDataSize) || !physicalMemoryName){
         invalidCache();
         return NULL;
     }
@@ -91,6 +91,11 @@ uint32_t getTag(cache_t* cache, uint32_t address) {
 */
 uint32_t getIndex(cache_t* cache, uint32_t address) {
 	/* Your Code Here. */
+    uint32_t indexBits = cache->cacheSizeBits / cache->blockDataSize / cache->n;
+    uint8_t index = log_2(indexBits);
+    uint32_t temp = address;
+    temp = temp << (32-index-)
+    temp = temp >> log_2(cache->blockDataSize);
 	return 0;
 }
 
@@ -109,7 +114,7 @@ uint32_t getOffset(cache_t* cache, uint32_t address) {
 */
 uint32_t getNumSets(cache_t* cache) {
 	/* Your Code Here. */
-	return 0;
+	return cache->totalDataSize/ cache->blockDataSize/cache->n;
 }
 
 /*
@@ -117,7 +122,8 @@ uint32_t getNumSets(cache_t* cache) {
 */
 uint8_t getTagSize(cache_t* cache) {
 	/* Your Code Here. */
-	return 0;
+    
+	return 32-log_2(cache->blockDataSize)-log_2(cache->totalDataSize/ cache->blockDataSize/ );
 }
 
 /*
