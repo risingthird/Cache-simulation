@@ -68,7 +68,7 @@ cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, 
 */
 void deleteCache(cache_t* cache) {
 	/* Your Code Here. */
-    if(!cache) return NULL;
+    if(!cache) return;
     free(cache->physicalMemoryName);
     free(cache);
     return;
@@ -91,7 +91,7 @@ uint32_t getTag(cache_t* cache, uint32_t address) {
 */
 uint32_t getIndex(cache_t* cache, uint32_t address) {
 	/* Your Code Here. */
-    uint32_t indexBits = cache->cacheSizeBits / cache->blockDataSize / cache->n;
+    uint32_t indexBits = cache->totalBlockBits / cache->blockDataSize / cache->n;
     uint8_t index = log_2(indexBits);
     uint32_t temp = address;
     temp = temp << getTagSize(cache); // remove leading tag bits
@@ -151,7 +151,7 @@ uint64_t totalBlockBits(cache_t* cache) {
 */
 uint64_t cacheSizeBits(cache_t* cache) {
 	/* Your Code Here. */
-	return (cache->cacheSizeBits/ cache->blockDataSize)*totalBlockBits(cache) ;
+	return (cache->totalBlockBits/ cache->blockDataSize)*totalBlockBits(cache) ;
 }
 
 /*
