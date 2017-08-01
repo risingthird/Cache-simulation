@@ -266,7 +266,7 @@ uint8_t log_2(uint32_t val) {
 */
 uint64_t getValidLocation(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+	return numGarbageBits(cache)+(blockNumber+1)*totalBlockBits(cache);
 }
 
 /*
