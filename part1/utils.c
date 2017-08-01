@@ -68,6 +68,10 @@ cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, 
 */
 void deleteCache(cache_t* cache) {
 	/* Your Code Here. */
+    if(!cache) return NULL;
+    free(cache->physicalMemoryName);
+    free(cache);
+    return;
 }
 
 /*
