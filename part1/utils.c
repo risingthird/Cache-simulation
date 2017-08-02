@@ -60,7 +60,7 @@ cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, 
 		return NULL;
 	}
 	/* Your Code Here. */
-    printCache(newCache);
+    
 	return newCache;
 }
 
@@ -145,7 +145,7 @@ uint8_t numLRUBits(cache_t* cache) {
 */
 uint64_t totalBlockBits(cache_t* cache) {
 	/* Your Code Here. */
-    
+    printCache(cache);
 	return 8*(cache->blockDataSize)+3+numLRUBits+getTagSize(cache); // offset bits + dirty bit + valid bit +lru
 }
 
