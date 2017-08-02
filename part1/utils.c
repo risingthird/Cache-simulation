@@ -43,7 +43,7 @@ void physicalMemFailed() {
 */ 
 cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, char* physicalMemoryName) {
 	/* Your Code Here. */
-    if(oneBitOn(n) || oneBitOn(blockDataSize) || oneBitOn(totalDataSize) || !physicalMemoryName){
+    if(!oneBitOn(n) || !oneBitOn(blockDataSize) || !oneBitOn(totalDataSize) || !physicalMemoryName){
         invalidCache();
         return NULL;
     }
