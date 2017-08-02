@@ -135,7 +135,7 @@ uint8_t getTagSize(cache_t* cache) {
 */
 uint8_t numLRUBits(cache_t* cache) {
 	/* Your Code Here. */
-	return log_2(getNumSets(cache));
+	return log_2(cache->n);
 }
 
 /*
@@ -275,7 +275,7 @@ uint64_t getValidLocation(cache_t* cache, uint32_t blockNumber) {
 */
 uint64_t getDirtyLocation(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+	return getValidLocation(cache, blockNumber)+1;
 }
 
 /*
@@ -284,7 +284,7 @@ uint64_t getDirtyLocation(cache_t* cache, uint32_t blockNumber) {
 */
 uint64_t getSharedLocation(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+	return getDirtyLocation(cache, blockNumber)+1;
 }
 
 /*
@@ -293,7 +293,7 @@ uint64_t getSharedLocation(cache_t* cache, uint32_t blockNumber) {
 */
 uint64_t getLRULocation(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+	return getSharedLocation(cache,blockNumber)+1;
 }
 
 /*
@@ -302,7 +302,7 @@ uint64_t getLRULocation(cache_t* cache, uint32_t blockNumber) {
 */
 uint64_t getTagLocation(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+	return getLRULocation(cache,blockNumber)+numLRUBits;
 }
 
 /*
@@ -311,5 +311,7 @@ uint64_t getTagLocation(cache_t* cache, uint32_t blockNumber) {
 */
 uint64_t getDataLocation(cache_t* cache, uint32_t blockNumber, uint32_t offset) {
 	/* Your Code Here. */
-	return 0;
+	return getTagLocation(cache, blockNumber)+
+           getTagSize(cache)+
+           offset*log_2(cache->blockDataSize); // tag location plus tag size plus offest times offset bits
 }
