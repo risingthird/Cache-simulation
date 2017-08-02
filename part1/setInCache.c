@@ -148,7 +148,8 @@ void setTag(cache_t* cache, uint32_t tag, uint32_t blockNumber) {
 
 /*
 	Takes a newly initialized cache or a cache which has shifted programs and
-	sets all of the valid bits to 0. Effectively clears the cache.
+	sets all of the valid bits to 0. Also sets all LRU bits to the maximum value. 
+	Effectively clears the cache.
 */
 void clearCache(cache_t* cache) {
 	/* Your Code Here. */
