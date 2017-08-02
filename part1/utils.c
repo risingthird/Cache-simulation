@@ -146,7 +146,7 @@ uint8_t numLRUBits(cache_t* cache) {
 uint64_t totalBlockBits(cache_t* cache) {
 	/* Your Code Here. */
     //printf("%d | ",getTagSize(cache));
-    uint64_t temp1 = 8*(cache->blockDataSize);
+    uint64_t temp1 = (cache->blockDataSize)<<3;
     uint64_t temp2 = 3+numLRUBits(cache)+getTagSize(cache);
     uint64_t result = temp1+temp2;
 	return result; // offset bits + dirty bit + valid bit +lru
