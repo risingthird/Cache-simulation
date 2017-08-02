@@ -40,7 +40,16 @@ void setShared(cache_t* cache, uint32_t blockNumber, uint8_t value) {
 */
 void setBit(cache_t* cache, uint64_t location, uint8_t value) {
 	/* Your Code Here. */
-    cache->contents[location] = value;
+    uint64_t byteLoc = location >>3;
+    int shiftAmount = location & 7;
+    if(shiftAmount == 0)
+        cache->contents[byteLoc] = value<<8;
+    else{
+        uint32_t temp = cache->contents[byteLoc];
+        temp = ((temp>>(8-shiftAmount))|value)<<(8-shiftAmount);
+        cache->contents[byteLoc] = (uint8_t) temp;
+    }
+    
 }
 
 /*
@@ -51,6 +60,12 @@ void setLRU(cache_t* cache, uint32_t blockNumber, long newLRU) {
 	/* Your Code Here. */
     uint64_t location = getLRULocation(cache, blockNumber);
     uint64_t byteLoc  = location >> 3;
+    int shiftAmount = location & 7;
+    if(shiftAmount == 0)
+        cache->contents[byteLoc] = newLRU;
+    else{
+        
+    }
     
 }
 
