@@ -149,7 +149,7 @@ uint64_t totalBlockBits(cache_t* cache) {
     uint64_t temp1 = (cache->blockDataSize)<<3;
     uint64_t temp2 = 3+numLRUBits(cache)+getTagSize(cache);
     uint64_t result = temp1+temp2;
-    printf("%lld | ", result);
+    printf("%llu | ", result);
 	return result; // offset bits + dirty bit + valid bit +lru
 }
 
@@ -191,7 +191,7 @@ uint8_t numGarbageBits(cache_t* cache) {
 */
 uint64_t getBlockStartBits(cache_t* cache, uint32_t blocknumber) {
 	/* Your Code Here. */
-	return getValidLocation(cache, blockNumber);
+	return getValidLocation(cache, blocknumber);
 }
 
 /*
