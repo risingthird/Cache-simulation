@@ -12,7 +12,7 @@
 */
 uint8_t getValid(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+	return getBit(cache, getValidLocation(cache, blockNumber));
 }
 
 /*
@@ -20,7 +20,7 @@ uint8_t getValid(cache_t* cache, uint32_t blockNumber) {
 */
 uint8_t getDirty(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+	return getBit(cache, getDirtyLocation(cache, blockNumber));
 }
 
 /*
@@ -28,7 +28,7 @@ uint8_t getDirty(cache_t* cache, uint32_t blockNumber) {
 */
 uint8_t getShared(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0; 
+	return getBit(cache, getSharedLocation(cache, blockNumber));
 }
 
 /* 
