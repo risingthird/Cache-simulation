@@ -13,6 +13,7 @@
 */
 void setValid(cache_t* cache, uint32_t blockNumber, uint8_t value) {
 	/* Your Code Here. */
+    setBit(cache,getValidLocation(cache, blockNumber), value);
 }
 
 /*
@@ -21,6 +22,7 @@ void setValid(cache_t* cache, uint32_t blockNumber, uint8_t value) {
 */
 void setDirty(cache_t* cache, uint32_t blockNumber, uint8_t value) {
 	/* Your Code Here. */
+    setBit(cache,getDirtyLocation(cache, blockNumber), value);
 }
 
 /*
@@ -29,6 +31,7 @@ void setDirty(cache_t* cache, uint32_t blockNumber, uint8_t value) {
 */
 void setShared(cache_t* cache, uint32_t blockNumber, uint8_t value) {
 	/* Your Code Here. */
+    setBit(cache,getSharedLocation(cache, blockNumber), value);
 }
 
 /*

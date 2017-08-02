@@ -37,7 +37,7 @@ uint8_t getShared(cache_t* cache, uint32_t blockNumber) {
 */
 uint8_t getBit(cache_t* cache, uint64_t location) {
 	/* Your Code Here. */
-	return 0;
+	return cache->contents[location];
 }
 
 /*
@@ -46,7 +46,19 @@ uint8_t getBit(cache_t* cache, uint64_t location) {
 */
 long getLRU(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return 0;
+    uint8_t bits = numLRUBits(cache);
+    uint64_t index = getLRULocation(cache, blockNumber);
+    long result = 0;
+    if(bits!=0){
+        for(uint8_t i =0; i<bits;i++){
+            result+=cache->contents[blockNumber+i];
+            result = result <<1;
+        }
+        result = result>>1;
+        return result;
+    }
+    else
+        return 0;
 }
 
 /*
@@ -86,6 +98,8 @@ uint32_t extractIndex(cache_t* cache, uint32_t blockNumber) {
 */
 uint32_t extractAddress(cache_t* cache, uint32_t tag, uint32_t blockNumber, uint32_t offset) {
 	/* Your Code Here. */
+    uint8_t tagsize = getTagSize(cache);
+    uint8_t indexsize = 
 	return 0;
 }
 
