@@ -327,5 +327,5 @@ uint64_t getDataLocation(cache_t* cache, uint32_t blockNumber, uint32_t offset) 
 	/* Your Code Here. */
 	return getTagLocation(cache, blockNumber)+
            getTagSize(cache)+
-           offset*log_2(cache->blockDataSize); // tag location plus tag size plus offest times offset bits
+           offset*8; // tag location plus tag size plus offest times offset bits, still need to work on, not so sure
 }
