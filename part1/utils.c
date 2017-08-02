@@ -159,6 +159,7 @@ uint64_t cacheSizeBits(cache_t* cache) {
 	/* Your Code Here. */
     uint64_t temp1 = totalBlockBits(cache);
     uint64_t result = (cache->totalDataSize/ cache->blockDataSize)*temp1;
+    printf("%ld |  ", result);
 	return result;
 }
 
@@ -310,7 +311,7 @@ uint64_t getLRULocation(cache_t* cache, uint32_t blockNumber) {
 */
 uint64_t getTagLocation(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
-	return getLRULocation(cache,blockNumber)+numLRUBits;
+	return getLRULocation(cache,blockNumber)+numLRUBits(cache);
 }
 
 /*
