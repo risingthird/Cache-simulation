@@ -60,6 +60,7 @@ cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, 
 		return NULL;
 	}
 	/* Your Code Here. */
+    printCache(newCache);
 	return newCache;
 }
 
@@ -109,7 +110,7 @@ uint32_t getOffset(cache_t* cache, uint32_t address) {
     uint32_t temp = address;
     temp = temp << (32 - log_2(cache->blockDataSize));
     temp = temp >> (32 - log_2(cache->blockDataSize));
-	return 0;
+	return temp;
 }
 
 /*
@@ -117,7 +118,8 @@ uint32_t getOffset(cache_t* cache, uint32_t address) {
 */
 uint32_t getNumSets(cache_t* cache) {
 	/* Your Code Here. */
-	return (cache->totalDataSize/ cache->blockDataSize)/cache->n;
+    uint32_t temp =(cache->totalDataSize/cache->blockDataSize);
+	return temp/cache->n;
 }
 
 /*
