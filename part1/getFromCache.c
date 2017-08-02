@@ -39,7 +39,8 @@ uint8_t getBit(cache_t* cache, uint64_t location) {
 	/* Your Code Here. */
     uint64_t byteLoc = location >> 3;
     int shiftAmount = location & 7;
-	return cache->contents[location];
+    return ((cache->contents[byteLoc])<<shiftAmount)>>8;
+	
 }
 
 /*
@@ -49,15 +50,17 @@ uint8_t getBit(cache_t* cache, uint64_t location) {
 long getLRU(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
     uint8_t bits = numLRUBits(cache);
-    uint64_t index = getLRULocation(cache, blockNumber);
+    uint64_t location = getLRULocation(cache, blockNumber);
+    uint64_t byteLoc  = location >> 3;
     long result = 0;
     if(bits!=0){
-        for(uint8_t i =0; i<bits;i++){
-            result+=cache->contents[blockNumber+i];
-            result = result <<1;
+        if((8-shiftAmount)>bits){
+            for(uint8_t i =0;i<bits;i++){
+                result+= (((cache->contents[byteLoc])<<(shiftAmount+i))>>8);
+                result = result <<1;
+            }
+            result >>1;
         }
-        result = result>>1;
-        return result;
     }
     else
         return 0;
