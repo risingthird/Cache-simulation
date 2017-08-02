@@ -149,7 +149,7 @@ uint64_t totalBlockBits(cache_t* cache) {
     uint64_t temp1 = ((uint64_t)(cache->blockDataSize))<<3;
     uint64_t temp2 = 3+numLRUBits(cache)+getTagSize(cache);
     uint64_t result = temp1+temp2;
-    printf("%llu | ", temp1);
+    //printf("%llu | ", temp1);
 	return result; // offset bits + dirty bit + valid bit +lru
 }
 
