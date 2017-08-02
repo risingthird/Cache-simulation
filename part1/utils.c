@@ -135,7 +135,7 @@ uint8_t getTagSize(cache_t* cache) {
 */
 uint8_t numLRUBits(cache_t* cache) {
 	/* Your Code Here. */
-	return log_2(cache->n);
+	return log_2(getNumSets(cache));
 }
 
 /*
