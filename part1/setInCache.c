@@ -49,6 +49,7 @@ void setBit(cache_t* cache, uint64_t location, uint8_t value) {
 */
 void setLRU(cache_t* cache, uint32_t blockNumber, long newLRU) {
 	/* Your Code Here. */
+    
 }
 
 /* 

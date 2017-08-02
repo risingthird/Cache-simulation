@@ -57,7 +57,7 @@ cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, 
     newCache->totalDataSize = totalDataSize;
     uint64_t cachebits = cacheSizeBits(newCache);
     uint8_t garbage = numGarbageBits(newCache);
-    newCache->contents = malloc((uint64_t)(cachebits+garbage)/4); // because c is byte indexed
+    newCache->contents = malloc((uint64_t)(cachebits+garbage)/8); // because c is byte indexed
     if(!newCache->contents) {allocationFailed();return NULL;}
 	if (access(physicalMemoryName, F_OK) == -1) {
 		physicalMemFailed();
@@ -75,6 +75,7 @@ void deleteCache(cache_t* cache) {
 	/* Your Code Here. */
     if(!cache) return;
     free(cache->physicalMemoryName);
+    free(cache->contents);
     free(cache);
     return;
 }
