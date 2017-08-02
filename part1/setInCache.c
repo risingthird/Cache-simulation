@@ -49,6 +49,8 @@ void setBit(cache_t* cache, uint64_t location, uint8_t value) {
 */
 void setLRU(cache_t* cache, uint32_t blockNumber, long newLRU) {
 	/* Your Code Here. */
+    uint64_t location = getLRULocation(cache, blockNumber);
+    uint64_t byteLoc  = location >> 3;
     
 }
 
@@ -158,6 +160,11 @@ void setTag(cache_t* cache, uint32_t tag, uint32_t blockNumber) {
 */
 void clearCache(cache_t* cache) {
 	/* Your Code Here. */
+    uint32_t blockNumber = cache->totalDataSize / cache->blockDataSize;
+    for(uint32_t i =0;i<blockNumber;i++){
+        setValid(cache, getValidLocation(cache,i),0);
+    }
+    initializeLRU(cache);
 }
 
 /*

@@ -56,11 +56,22 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
     if(bits!=0){
         if((8-shiftAmount)>bits){
             for(uint8_t i =0;i<bits;i++){
-                result+= (((cache->contents[byteLoc])<<(shiftAmount+i))>>8);
+                result+= (uint8_t)(((cache->contents[byteLoc])<<(shiftAmount+i))>>8);
                 result = result <<1;
             }
-            result >>1;
+            result =  result >>1;
+            return result;
         }
+        else{
+            result+= ((uint8_t) (cache->contents[byteLoc])<<(shiftAmount))>>shiftAmount;
+            for(uint8_t j=0; j<(bits+shiftAmount-8);j++){
+                result += (uint8_t)(((cache->contents[byteLoc+1])<<j)>>8);
+                result = result <<1;
+            }
+            result = result >>1;
+            return result;
+        }
+        
     }
     else
         return 0;
@@ -128,6 +139,8 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
 	if (info == NULL) {
 		allocationFailed();
 	}
+    uint32_t tag = getTag(cache,address);
+    uint32_t index = getIndex(cache,address);  // use index to find block numbers, and determine which has the largest LRU bits
 	/* Your Code Here. */
 	return info;
 }
