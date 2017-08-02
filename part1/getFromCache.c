@@ -37,6 +37,8 @@ uint8_t getShared(cache_t* cache, uint32_t blockNumber) {
 */
 uint8_t getBit(cache_t* cache, uint64_t location) {
 	/* Your Code Here. */
+    uint64_t byteLoc = location >> 3;
+    int shiftAmount = location & 7;
 	return cache->contents[location];
 }
 

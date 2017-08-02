@@ -64,7 +64,7 @@ cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, 
 		return NULL;
 	}
 	/* Your Code Here. */
-    
+    clearCache(newCache);
 	return newCache;
 }
 
