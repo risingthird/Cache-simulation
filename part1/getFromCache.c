@@ -99,7 +99,7 @@ uint32_t extractIndex(cache_t* cache, uint32_t blockNumber) {
 uint32_t extractAddress(cache_t* cache, uint32_t tag, uint32_t blockNumber, uint32_t offset) {
 	/* Your Code Here. */
     uint8_t tagsize = getTagSize(cache);
-    uint8_t indexsize = 
+    uint8_t indexsize = log_2(getNumSets(cache));
 	return 0;
 }
 
