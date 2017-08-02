@@ -40,6 +40,7 @@ void setShared(cache_t* cache, uint32_t blockNumber, uint8_t value) {
 */
 void setBit(cache_t* cache, uint64_t location, uint8_t value) {
 	/* Your Code Here. */
+    cache->contents[location] = value;
 }
 
 /*
