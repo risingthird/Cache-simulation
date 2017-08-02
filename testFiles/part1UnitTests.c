@@ -29,7 +29,6 @@ void test_Utils() {
 	CU_ASSERT_EQUAL(cacheSizeBytes(cache), 156);
 	CU_ASSERT_EQUAL(numGarbageBits(cache), 0);
 	CU_ASSERT_EQUAL(totalBlockBits(cache), 156);
-    printCache(cache);
 	deleteCache(cache);
 
 	//Fully Associative Cache Test
