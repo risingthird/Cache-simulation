@@ -143,6 +143,7 @@ uint8_t numLRUBits(cache_t* cache) {
 */
 uint64_t totalBlockBits(cache_t* cache) {
 	/* Your Code Here. */
+    
 	return 8*(cache->blockDataSize)+3+numLRUBits+getTagSize(cache); // offset bits + dirty bit + valid bit +lru
 }
 
@@ -151,6 +152,7 @@ uint64_t totalBlockBits(cache_t* cache) {
 */
 uint64_t cacheSizeBits(cache_t* cache) {
 	/* Your Code Here. */
+    
 	return (cache->totalDataSize/ cache->blockDataSize)*totalBlockBits(cache) ;
 }
 
