@@ -61,6 +61,7 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
                 result = result <<1;
             }
             result =  result >>1;
+            printf("%ld | ",result);
             return result;
         }
         else{
@@ -70,6 +71,7 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
                 result = result <<1;
             }
             result = result >>1;
+            printf("%ld | ",result);
             return result;
         }
         
