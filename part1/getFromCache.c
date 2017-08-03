@@ -129,10 +129,15 @@ uint32_t extractAddress(cache_t* cache, uint32_t tag, uint32_t blockNumber, uint
 
 /*
 	Takes in a cache and an address and finds the next block that should be 
-	evicted. If there are multiple blocks that could be evicted selects the
+	used for a cache operation on the address provided. If this address is
+	already in memory it should return the block at which this address's
+	operation would occur and indicates that this was a successful match.
+	If this address is not stored in the cache then it should point to the next
+	block that needs to be evicted as indicated by our LRU replacement system.
+	If there are multiple blocks that could be evicted selects the
 	block that occurs earlier in the cache. Returns a pointer to a struct
-	which contains a block number, an LRU value, and whether or not the tag
-	in the block matches the tag for the address passed in.
+	which contains a block number, an LRU value, and whether or not the address
+	is already stored in the cache (is a match).
 */
 evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
 	evictionInfo_t* info;
@@ -170,9 +175,9 @@ long getLRUAddress(cache_t* cache, uint32_t address){
 	uint32_t idx = getIndex(cache, address);
 	long tempLRU;
 	for (int i = 0; i < cache->n; i++) {
-		tempLRU = getLRU(cache, (idx >> log_2(cache->n)) + i);
+		tempLRU = getLRU(cache, (idx << log_2(cache->n)) + i);
 		tag = getTag(cache, address);
-		if (tagEquals((idx >> log_2(cache->n)) + i, tag, cache)) {
+		if (tagEquals((idx << log_2(cache->n)) + i, tag, cache)) {
 			return tempLRU;
 		}
 	}
