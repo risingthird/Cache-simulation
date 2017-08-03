@@ -42,7 +42,7 @@ void setBit(cache_t* cache, uint64_t location, uint8_t value) {
 	/* Your Code Here. */
     uint64_t byteLoc = location >>3;
     int shiftAmount = location & 7;
-    if(shiftAmount == 0){
+    /*if(shiftAmount == 0){
         uint8_t mask =0;
         for(int i=0;i<7;i++){
             mask +=(1<<i);
@@ -55,9 +55,11 @@ void setBit(cache_t* cache, uint64_t location, uint8_t value) {
     }
     else{
         uint8_t temp = cache->contents[byteLoc];
+        for(int i=0;i<(8-shiftAmount-1))
         temp = (((temp>>(8-shiftAmount+1))<<1)|value)<<(8-shiftAmount);
-        //cache->contents[byteLoc] = (uint8_t) temp;
-    }
+        cache->contents[byteLoc] = (uint8_t) temp;
+    }*/
+    cache->contents[byteLoc] = cache->contents[byteLoc]&(~(1<<shiftAmount)) | (value<<shiftAmount);
     
 }
 

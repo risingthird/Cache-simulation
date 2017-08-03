@@ -50,7 +50,24 @@ uint8_t* fetchBlock(cache_t* cache, uint32_t blockNumber) {
 	evicted.
 */
 uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
-	/* Your Code Here. */;
+	/* Your Code Here. */
+    // first we need to check the index bits;
+    uint32_t indexBits = getIndex(cache, address);
+    uint32_t blockend = (indexBits+1)*(cache->n)-1;
+    uint32_t blockstart = (indexBits)*(cache->n);
+    bool match = false;
+    uint32_t blockFound;
+    for(uint32_t i=blockstart;i<=blockend;i++){
+        if(getValid(cache,i)){
+            
+        }
+        if(tagEquals(i,getTag(cache,address),cache)){
+            match = true;
+            blockFound = i;
+            break;
+        }
+    }
+    
 	return NULL;
 }
 
