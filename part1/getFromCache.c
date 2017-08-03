@@ -39,7 +39,7 @@ uint8_t getBit(cache_t* cache, uint64_t location) {
 	/* Your Code Here. */
     uint64_t byteLoc = location >> 3;
     int shiftAmount = location & 7;
-    return ((cache->contents[byteLoc])<<(shiftAmount))>>8;
+    return ((cache->contents[byteLoc])<<(shiftAmount-1))>>7;
 	
 }
 
