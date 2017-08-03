@@ -59,6 +59,7 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
             for(int i =0;i<bits;i++){
                 result+= ((getBit(cache,location+i))<<(bits-i-1));
             }
+            printf("get from loop1\n");
             return result;
         }
         else{
