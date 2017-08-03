@@ -59,9 +59,9 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
             for(uint8_t i =0;i<bits;i++){
                 result = result | (uint8_t)(((cache->contents[byteLoc])<<(shiftAmount+i)-1)>>7);
                 result = result <<1;
+                printf("%ld in one | ",result);
             }
             result =  result >>1;
-            printf("%ld in one | ",result);
             return result;
         }
         else{
