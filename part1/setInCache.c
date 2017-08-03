@@ -43,7 +43,7 @@ void setBit(cache_t* cache, uint64_t location, uint8_t value) {
     uint64_t byteLoc = location >>3;
     int shiftAmount = location & 7;
     if(shiftAmount == 0)
-        cache->contents[byteLoc] = value<<8;
+        cache->contents[byteLoc] = value<<7;
     else{
         uint8_t temp = cache->contents[byteLoc];
         temp = (((temp>>(8-shiftAmount+1))<<1)|value)<<(8-shiftAmount);
