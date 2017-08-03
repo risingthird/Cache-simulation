@@ -32,7 +32,7 @@ typedef struct addressList {
 
 /*
 	Stuct used to represent each bucket in the snooper. Contains a pointer to
-	a list with an address, a content size, and a capacity it can support.
+	a list with an address.
 */
 typedef struct snoopBucket{
 	addressList_t* lst;
