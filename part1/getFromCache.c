@@ -61,17 +61,17 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
                 result = result <<1;
             }
             result =  result >>1;
-            printf("%ld | ",result);
+            printf("%ld in one | ",result);
             return result;
         }
         else{
-            result+= ((uint8_t) (cache->contents[byteLoc])<<(shiftAmount))>>shiftAmount;
-            for(uint8_t j=0; j<(bits+shiftAmount-8);j++){
-                result += (uint8_t)(((cache->contents[byteLoc+1])<<j)>>8);
+            result+= ((uint8_t) (cache->contents[byteLoc])<<(shiftAmount-1))>>(shiftAmount+1);
+            for(uint8_t j=0; j<(bits+shiftAmount-8-1);j++){
                 result = result <<1;
+                result += (uint8_t)(((cache->contents[byteLoc+1])<<j)>>8);
             }
-            result = result >>1;
-            printf("%ld | ",result);
+            //result = result >>1;
+            printf("%ld in two | ",result);
             return result;
         }
         
