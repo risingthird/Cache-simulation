@@ -125,12 +125,12 @@ void test_Getters_and_Setters() {
 	setShared(cache, 7, 1);
 	CU_ASSERT_EQUAL(getValid(cache, 0), 0);
 	CU_ASSERT_EQUAL(getValid(cache, 1), 1);
+    printf("%d mother | ", getValid(cache, 6));
 	CU_ASSERT_EQUAL(getValid(cache, 2), 0);
 	CU_ASSERT_EQUAL(getValid(cache, 3), 1);
 	CU_ASSERT_EQUAL(getValid(cache, 4), 0);
 	CU_ASSERT_EQUAL(getValid(cache, 5), 0);
 	CU_ASSERT_EQUAL(getValid(cache, 6), 1);
-    printf("%d mother | ", getValid(cache, 6));
 	CU_ASSERT_EQUAL(getValid(cache, 7), 0);
 	CU_ASSERT_EQUAL(getShared(cache, 3), 1);
 	CU_ASSERT_EQUAL(getShared(cache, 6), 1);
