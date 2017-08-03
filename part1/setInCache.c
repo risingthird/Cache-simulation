@@ -60,7 +60,7 @@ void setBit(cache_t* cache, uint64_t location, uint8_t value) {
         cache->contents[byteLoc] = (uint8_t) temp;
     }*/
     uint8_t temp = cache->contents[byteLoc];
-    temp = temp &(~(1<<(8-shiftAmount))) | (value<<(8-shiftAmount));
+    temp = temp &(~(1<<(8-shiftAmount-1))) | (value<<(8-shiftAmount-1));
     cache->contents[byteLoc] = temp;
     
 }
