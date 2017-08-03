@@ -253,6 +253,7 @@ void test_Getters_and_Setters() {
 	CU_ASSERT_PTR_NOT_NULL(cache);
 	CU_ASSERT_EQUAL(getNumSets(cache), 1);
 	CU_ASSERT_EQUAL(getTagSize(cache), 28);
+    printCache(cache);
 	CU_ASSERT_EQUAL(getLRU(cache, 0), 3);
 	CU_ASSERT_EQUAL(getLRU(cache, 1), 3);
 	CU_ASSERT_EQUAL(getLRU(cache, 2), 3);
