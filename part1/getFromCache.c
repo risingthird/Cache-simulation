@@ -58,7 +58,7 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
         if((8-shiftAmount)>bits){
             for(int i =0;i<bits;i++){
                 result+= ((getBit(cache,location+i))<<(bits-i-1));
-                printf("&ld | ",result);
+                printf("%ld | ",result);
             }
             return result;
         }
