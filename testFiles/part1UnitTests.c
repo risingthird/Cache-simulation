@@ -123,7 +123,7 @@ void test_Getters_and_Setters() {
 	setShared(cache, 6, 1);
 	setShared(cache, 2, 1);
 	setShared(cache, 7, 1);
-    //printCache(cache);
+    printCache(cache);
 	CU_ASSERT_EQUAL(getValid(cache, 0), 0);
 	CU_ASSERT_EQUAL(getValid(cache, 1), 1);
 	CU_ASSERT_EQUAL(getValid(cache, 2), 0);
