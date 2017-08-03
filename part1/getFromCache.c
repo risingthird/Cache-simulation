@@ -141,7 +141,21 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
 	}
     uint32_t tag = getTag(cache,address);
     uint32_t index = getIndex(cache,address);  // use index to find block numbers, and determine which has the largest LRU bits
+    uint32_t end = (index+1)<<(log_2(cache->n));
+    uint32_t start = (index)<<(log_2(cache->n));
 	/* Your Code Here. */
+    long lru = 0;
+    uint32_t finalBlockNumber =  start;
+    for(uint32_t i = start;i<=end;i++){
+        if(getLRU(cache,i) > lru){
+            lru = getLRU(cache,i);
+            finalBlockNumber = i;
+        }
+    }
+    bool match = tagEquals(finalBlockNumber,getTag(cache,address),cache);
+    info->blockNumber = finalBlockNumber;
+    info->match = match;
+    info->LRU = getLRU(cache,finalBlockNumber);
 	return info;
 }
 
@@ -161,6 +175,7 @@ long getLRUAddress(cache_t* cache, uint32_t address){
 			return tempLRU;
 		}
 	}
+   
 	return -1;
 }
 
