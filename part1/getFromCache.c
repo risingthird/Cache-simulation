@@ -52,6 +52,7 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
     uint8_t bits = numLRUBits(cache);
     uint64_t location = getLRULocation(cache, blockNumber);
     uint64_t byteLoc  = location >> 3;
+    int shiftAmount = location & 7;
     long result = 0;
     if(bits!=0){
         if((8-shiftAmount)>bits){
@@ -75,6 +76,7 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
     }
     else
         return 0;
+    return 0;
 }
 
 /*
