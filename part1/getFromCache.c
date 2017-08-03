@@ -57,19 +57,18 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
     if(bits!=0){
         if((8-shiftAmount)>bits){
             for(int i =0;i<bits;i++){
-                result+= (getBit(cache,location+i))<<(bits-i);
-                printf("%ld  | ",result);
+                result+= ((getBit(cache,location+i))<<(bits-i));
             }
             return result;
         }
         else{
-            result+= ((uint8_t) (cache->contents[byteLoc])<<(shiftAmount-1))>>(shiftAmount+1);
-            for(uint8_t j=0; j<(bits+shiftAmount-8-1);j++){
+            result+= ((uint8_t) (cache->contents[byteLoc])<<(shiftAmount))>>(shiftAmount);
+            for(uint8_t j=0; j<(bits+shiftAmount-8);j++){
                 result = result <<1;
                 result += (uint8_t)(((cache->contents[byteLoc+1])<<j)>>8);
             }
             //result = result >>1;
-            printf("%ld in two | ",result);
+            //printf("%ld in two | ",result);
             return result;
         }
         
