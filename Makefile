@@ -30,7 +30,7 @@ part1: clean copy
 	$(CC) $(CFLAGS) -DTESTING -o caches testFiles/part1UnitTests.c part1/utils.c part1/setInCache.c part1/mem.c part1/getFromCache.c part1/cacheWrite.c part1/cacheRead.c part2/hitRate.c $(CUNIT) -lm
 
 part2: clean copy
-	$(CC) $(CFLAGS) -DTESTING -o caches testFiles/part2UnitTests.c part1/utils.c part1/setInCache.c part1/mem.c part1/getFromCache.c part1/cacheWrite.c part1/cacheRead.c part2/hitRate.c part2/problem1.c part2/problem2.c part2/problem3.c part2/problem1Test.c part2/problem2Test.c part2/problem3Test.c $(CUNIT) -lm
+	$(CC) $(CFLAGS) -DTESTING -o caches testFiles/part2UnitTests.c part1/utils.c part1/setInCache.c part1/mem.c part1/getFromCache.c part1/cacheWrite.c part1/cacheRead.c part2/hitRate.c part2/problem1.c part2/problem2.c part2/problem3.c $(CUNIT) -lm
 
 
 part3: clean copy
