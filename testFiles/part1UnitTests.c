@@ -93,6 +93,177 @@ void test_Utils() {
 	deleteCache(cache);
 }
 
+void test_Locations() {
+	uint32_t n;
+	uint32_t blockDataSize;
+	uint32_t totalDataSize;
+	char* memFile;
+	cache_t* cache;
+	memFile = "testFiles/50AddressTest.txt";
+
+	n = 1;
+	blockDataSize = 16;
+	totalDataSize = 128;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	CU_ASSERT_EQUAL(getValidLocation(cache, 2), 312);
+	CU_ASSERT_EQUAL(getDirtyLocation(cache, 1), 157);
+	CU_ASSERT_EQUAL(getSharedLocation(cache, 3), 470);
+	CU_ASSERT_EQUAL(getLRULocation(cache, 0), 3);
+	CU_ASSERT_EQUAL(getTagLocation(cache, 0), 3);
+	CU_ASSERT_EQUAL(getDataLocation(cache, 2, 9), 412);
+	deleteCache(cache);
+
+
+	n = 16;
+	blockDataSize = 32;
+	totalDataSize = 512;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	CU_ASSERT_EQUAL(getValidLocation(cache, 6), 1740);
+	CU_ASSERT_EQUAL(getDirtyLocation(cache, 11), 3191);
+	CU_ASSERT_EQUAL(getSharedLocation(cache, 9), 2612);
+	CU_ASSERT_EQUAL(getLRULocation(cache, 14), 4063);
+	CU_ASSERT_EQUAL(getTagLocation(cache, 1), 297);
+	CU_ASSERT_EQUAL(getDataLocation(cache, 15, 30), 4624);
+	deleteCache(cache);
+
+	n = 1;
+	blockDataSize = 1;
+	totalDataSize = 1;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	CU_ASSERT_EQUAL(getValidLocation(cache, 0), 5);
+	CU_ASSERT_EQUAL(getDirtyLocation(cache, 0), 6);
+	CU_ASSERT_EQUAL(getSharedLocation(cache, 0), 7);
+	CU_ASSERT_EQUAL(getLRULocation(cache, 0), 8);
+	CU_ASSERT_EQUAL(getTagLocation(cache, 0), 8);
+	CU_ASSERT_EQUAL(getDataLocation(cache, 0, 0), 40);
+	deleteCache(cache);
+}
+
+void test_Bit() {
+	uint32_t n;
+	uint32_t blockDataSize;
+	uint32_t totalDataSize;
+	char* memFile;
+	cache_t* cache;
+	memFile = "testFiles/50AddressTest.txt";
+	n = 1;
+	blockDataSize = 1;
+	totalDataSize = 8;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+
+	cache->contents[0] = 0;
+	setBit(cache, 6, 1);
+	CU_ASSERT_EQUAL(cache->contents[0], 2);
+	CU_ASSERT_EQUAL(getBit(cache, 6), 1);
+	CU_ASSERT_EQUAL(getBit(cache, 7), 0);
+	for (int i = 0; i < 6; i++) {
+		CU_ASSERT_EQUAL(getBit(cache, i), 0);
+	}
+
+	cache->contents[4] = 0;
+	setBit(cache, 36, 1);
+	CU_ASSERT_EQUAL(cache->contents[4], 8);
+	setBit(cache, 34, 1);
+	CU_ASSERT_EQUAL(cache->contents[4], 40);
+	for (int i = 0; i < 2; i++) {
+		CU_ASSERT_EQUAL(getBit(cache, 32 + i), 0);
+	}
+	CU_ASSERT_EQUAL(getBit(cache, 34), 1);
+	CU_ASSERT_EQUAL(getBit(cache, 35), 0);
+	CU_ASSERT_EQUAL(getBit(cache, 36), 1);
+	for (int i = 5; i < 8; i++) {
+		CU_ASSERT_EQUAL(getBit(cache, 32 + i), 0);
+	}
+
+	cache->contents[1] = 255;
+	setBit(cache, 13, 0);
+	CU_ASSERT_EQUAL(cache->contents[1], 251);
+	for (int i = 0; i < 5; i++) {
+		CU_ASSERT_EQUAL(getBit(cache, 8 + i), 1);
+	}
+	CU_ASSERT_EQUAL(getBit(cache, 13), 0);
+	for (int i = 6; i < 8; i++) {
+		CU_ASSERT_EQUAL(getBit(cache, 8 + i), 1);
+	}
+
+	cache->contents[7] = 255;
+	setBit(cache, 56, 0);
+	CU_ASSERT_EQUAL(cache->contents[7], 127);
+	setBit(cache, 63, 0);
+	CU_ASSERT_EQUAL(cache->contents[7], 126);
+	CU_ASSERT_EQUAL(getBit(cache, 56), 0);
+	for (int i = 1; i < 7; i++) {
+		CU_ASSERT_EQUAL(getBit(cache, 56 + i), 1);
+	}
+	CU_ASSERT_EQUAL(getBit(cache, 63), 0);
+
+	deleteCache(cache);
+}
+
+void test_Getters() {
+	uint32_t n;
+	uint32_t blockDataSize;
+	uint32_t totalDataSize;
+	char* memFile;
+	cache_t* cache;
+	memFile = "testFiles/50AddressTest.txt";
+
+	n = 1;
+	blockDataSize = 16;
+	totalDataSize = 128;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+
+	cache->contents[0] = 16;
+	cache->contents[1] = 145;
+	cache->contents[2] = 87;
+	cache->contents[3] = 45;
+
+	CU_ASSERT_EQUAL(getValid(cache, 0), 0);
+	CU_ASSERT_EQUAL(getDirty(cache, 0), 0);
+	CU_ASSERT_EQUAL(getShared(cache, 0), 0);
+	CU_ASSERT_EQUAL(getLRU(cache, 0), 0);
+	CU_ASSERT_EQUAL(extractTag(cache, 0), 0x1091572);
+
+	cache->contents[58] = 5;
+	cache->contents[59] = 198;
+	cache->contents[60] = 37;
+	cache->contents[61] = 22;
+
+	CU_ASSERT_EQUAL(getValid(cache, 3), 0);
+	CU_ASSERT_EQUAL(getDirty(cache, 3), 1);
+	CU_ASSERT_EQUAL(getShared(cache, 3), 0);
+	CU_ASSERT_EQUAL(getLRU(cache, 3), 0);
+	CU_ASSERT_EQUAL(extractTag(cache, 3), 0x1c62516);
+
+	deleteCache(cache);
+
+	n = 16;
+	blockDataSize = 32;
+	totalDataSize = 512;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+
+	cache->contents[36] = 63;
+	cache->contents[37] = 89;
+	cache->contents[38] = 209;
+	cache->contents[39] = 97;
+	cache->contents[40] = 0;
+
+	CU_ASSERT_EQUAL(getValid(cache, 1), 1);
+	CU_ASSERT_EQUAL(getDirty(cache, 1), 1);
+	CU_ASSERT_EQUAL(getShared(cache, 1), 1);
+	CU_ASSERT_EQUAL(getLRU(cache, 1), 14);
+	CU_ASSERT_EQUAL(extractTag(cache, 1), 0x59d1610);
+
+	deleteCache(cache);
+
+}
+
 void test_Getters_and_Setters() {
 	uint8_t n;
 	uint32_t blockDataSize;
@@ -1455,10 +1626,19 @@ int main(int argc, char** argv) {
     		if (!CU_add_test(pSuite1, "test_Utils", test_Utils)) {
         		goto exit;
         	}
+        	if (!CU_add_test(pSuite1, "test_Locations", test_Locations)) {
+        		goto exit;
+    		}
     		if (argc - 1) {
     			break;
     		}
     	case 2:
+    		if (!CU_add_test(pSuite1, "test_Bit", test_Bit)) {
+       	 		goto exit;
+    		}
+    		if (!CU_add_test(pSuite1, "test_Getters", test_Getters)) {
+        		goto exit;
+    		}
     		if (!CU_add_test(pSuite1, "test_Getters_and_Setters", test_Getters_and_Setters)) {
         		goto exit;
     		}
