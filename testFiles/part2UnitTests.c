@@ -8,11 +8,8 @@
 #include "../part1/mem.h"
 #include "../part2/hitRate.h"
 #include "../part2/problem1.h"
-#include "../part2/problem1Test.h"
 #include "../part2/problem2.h"
-#include "../part2/problem2Test.h"
 #include "../part2/problem3.h"
-#include "../part2/problem3Test.h"
 
 /*
 	Tests basic hit rate from a series of hits/misses without a pattern.	
