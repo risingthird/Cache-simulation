@@ -77,7 +77,7 @@ void setLRU(cache_t* cache, uint32_t blockNumber, long newLRU) {
     uint8_t mask = 0;
     int shiftAmount = location & 7;
     if(shiftAmount == 0)
-        cache->contents[byteLoc] = (uint8_t)newLRU;
+        cache->contents[byteLoc] = (uint8_t) newLRU<<(7-lrubits);
     else{
         
     }
