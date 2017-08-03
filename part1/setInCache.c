@@ -188,11 +188,11 @@ void setTag(cache_t* cache, uint32_t tag, uint32_t blockNumber) {
 */
 void clearCache(cache_t* cache) {
 	/* Your Code Here. */
-    uint32_t blockNumber = getNumSets(cache) << (log_2(cache->n));
+    /*uint32_t blockNumber = getNumSets(cache) << (log_2(cache->n));
     for(uint32_t i =0;i<blockNumber;i++){
         setValid(cache, getValidLocation(cache,i),0);
     }
-    initializeLRU(cache);
+    initializeLRU(cache);*/
 }
 
 /*
