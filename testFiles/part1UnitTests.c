@@ -115,7 +115,7 @@ void test_Getters_and_Setters() {
 
 	setValid(cache, 1, 1);
 	setValid(cache, 3, 1);
-	setValid(cache, 6, 1);
+	setValid(cache, 5, 1);
 	setDirty(cache, 2, 1);
 	setDirty(cache, 0, 1);
 	setDirty(cache, 6, 1);
