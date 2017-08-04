@@ -103,6 +103,8 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
     //if((address>>1)<<1 != address) retVal.success = false; // aligment error
     //uint32_t dataSize = cace->blockDataSize;
     retVal.data = readFromCache(cache,address,1);
+    retVal.success = true;
+    printf("%u |", retVal.data);
 	return retVal;
 }
 
