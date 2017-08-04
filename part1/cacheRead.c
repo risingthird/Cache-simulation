@@ -53,6 +53,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 	/* Your Code Here. */
     // first we need to check the index bits;
     if(!validAddresses(address,dataSize)) return NULL;
+    
     uint32_t tag = getTag(cache,address);
     uint32_t offset = getOffset(cache,address);
     uint32_t indexBits = getIndex(cache, address);
@@ -122,7 +123,21 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
 halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
 	halfWordInfo_t retVal;
 	/* Your Code Here. */
-	return retVal;
+    if(!validAddresses(address,2) || (address>>1)<<1 !=address) {
+        retVal.success = false;return retVal;
+    }
+    retVal.success = true;
+    if(cache->blockDataSize>2){
+        uint8_t* temp = readFromCache(cache,address,2);
+        retVal.data = temp[0]<<8 +temp[1];
+        free(temp);
+        return retVal;
+    }
+    else{
+        
+    }
+    
+    return retVal;
 }
 
 /*
