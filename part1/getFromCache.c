@@ -164,7 +164,7 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
     for(i = start;i<=end;i++){
         if(tagEquals(i,tag,cache) && getValid(cache,i)){
             info->blockNumber = i;
-            info->LRU = getLRU(cache,finalBlockNumber);
+            info->LRU = getLRU(cache,i);
             info->match = true;
             return info;
         }
@@ -181,7 +181,7 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
         if(temp == lru){
             info->blockNumber = i;
             info->LRU = getLRU(cache,finalBlockNumber);
-            info->match = true;
+            info->match = false;
             return info;
         }
     }
