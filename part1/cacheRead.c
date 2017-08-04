@@ -58,8 +58,8 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
     uint32_t indexBits = getIndex(cache, address);
     uint32_t blockend = (indexBits+1)*(cache->n)-1;
     uint32_t blockstart = (indexBits)*(cache->n);
-    bool match = false;
-    uint32_t i,j,k;
+    //bool match = false;
+    //uint32_t i,j,k;
     /*for(i=blockstart;i<=blockend;i++){
         if(getValid(cache,i)&&tagEquals(i,getTag(cache,address),cache)){
             uint8_t* data = getData(cache,offset,i,dataSize);
@@ -73,7 +73,16 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
     }
     else{
         uint8_t* data = readFromMem(cache,address);
+        uint32_t oldTemp = extractTag(cache,info->blockNumber);
         evict(cache,info->blockNumber);
+        setValid(cache,info->blockNumber,1);
+        setDirty(cache,info->blockNumber,1);
+        //setLRU(cache,info->blockNumber,info->LRU);
+        setData(cache,data,info->blockNumber,dataSize,offset);
+        updateLRU(cache,oldTemp,indexBits,info->LRU);
+        setTag(cache,tag,info->blockNumber);
+        free(info);
+        return data;
     }
     free(info);
 	return NULL;
@@ -89,6 +98,10 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 byteInfo_t readByte(cache_t* cache, uint32_t address) {
 	byteInfo_t retVal;
 	/* Your Code Here. */
+    if(!validAddresses(address,1)) retVal->success = false;
+    if((address>>1)<<1 != address) retVal->success = false; // aligment error
+    //uint32_t dataSize = cace->blockDataSize;
+    retVal->data = readFromCache(cache,address,1);
 	return retVal;
 }
 
