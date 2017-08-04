@@ -129,7 +129,7 @@ halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
     retVal.success = true;
     if(cache->blockDataSize>2){
         uint8_t* temp = readFromCache(cache,address,2);
-        retVal.data = temp[0]<<8 +temp[1];
+        retVal.data = (uint16_t) temp[0]<<8 | temp[1];
         free(temp);
         printf("%u |", retVal.data);
         return retVal;
