@@ -67,19 +67,20 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
         }
     }*/
     evictionInfo_t* info = findEviction(cache,address);
+    // first check whether target is already in cache
     if(info->match){
-        uint8_t* data = getData(cache,offset,i,dataSize);
+        uint8_t* data = getData(cache,offset,info->blockNumber,dataSize);
         return data;
     }
     else{
         uint8_t* data = readFromMem(cache,address);
-        uint32_t oldTemp = extractTag(cache,info->blockNumber);
+        uint32_t oldTag = extractTag(cache,info->blockNumber);
         evict(cache,info->blockNumber);
         setValid(cache,info->blockNumber,1);
         setDirty(cache,info->blockNumber,1);
         //setLRU(cache,info->blockNumber,info->LRU);
         setData(cache,data,info->blockNumber,dataSize,offset);
-        updateLRU(cache,oldTemp,indexBits,info->LRU);
+        updateLRU(cache,oldTag,indexBits,info->LRU);
         setTag(cache,tag,info->blockNumber);
         free(info);
         return data;
@@ -98,8 +99,8 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 byteInfo_t readByte(cache_t* cache, uint32_t address) {
 	byteInfo_t retVal;
 	/* Your Code Here. */
-    if(!validAddresses(address,1)) retVal->success = false;
-    if((address>>1)<<1 != address) retVal->success = false; // aligment error
+    if(!validAddresses(address,1)) retVal.success = false;
+    if((address>>1)<<1 != address) retVal.success = false; // aligment error
     //uint32_t dataSize = cace->blockDataSize;
     retVal.data = readFromCache(cache,address,1);
 	return retVal;
