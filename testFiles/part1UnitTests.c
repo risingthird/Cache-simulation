@@ -253,7 +253,6 @@ void test_Getters() {
 	cache->contents[38] = 209;
 	cache->contents[39] = 97;
 	cache->contents[40] = 0;
-    printf("%ld motherfcker", getLRU(cache, 1));
 	CU_ASSERT_EQUAL(getValid(cache, 1), 1);
 	CU_ASSERT_EQUAL(getDirty(cache, 1), 1);
 	CU_ASSERT_EQUAL(getShared(cache, 1), 1);
