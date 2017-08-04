@@ -179,7 +179,7 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
     for(k = start; k<=end; k++){
         long temp = getLRU(cache,k);
         if(temp == lru){
-            info->blockNumber = i;
+            info->blockNumber = k;
             info->LRU = lru;
             info->match = false;
             return info;
