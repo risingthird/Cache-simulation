@@ -51,7 +51,7 @@ long getLRU(cache_t* cache, uint32_t blockNumber) {
 	/* Your Code Here. */
     uint8_t bits = numLRUBits(cache);
     uint64_t location = getLRULocation(cache, blockNumber);
-    uint64_t byteLoc  = location >> 3;
+    //uint64_t byteLoc  = location >> 3;
     int shiftAmount = location & 7;
     uint8_t result = 0;
     if(bits!=0){
@@ -124,7 +124,7 @@ uint32_t extractIndex(cache_t* cache, uint32_t blockNumber) {
 uint32_t extractAddress(cache_t* cache, uint32_t tag, uint32_t blockNumber, uint32_t offset) {
 	/* Your Code Here. */
     uint8_t tagsize = getTagSize(cache);
-    uint8_t indexsize = log_2(getNumSets(cache));
+    //uint8_t indexsize = log_2(getNumSets(cache));
     uint32_t result = 0;
     result+=extractTag(cache,blockNumber);
     result = result <<(32-tagsize);
@@ -159,7 +159,7 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
     uint32_t start = (index)*(cache->n);
 	/* Your Code Here. */
     long lru = 0;
-    uint32_t finalBlockNumber =  start;
+    //uint32_t finalBlockNumber =  start;
     uint32_t i,j,k;
     for(i = start;i<=end;i++){
         if(tagEquals(i,tag,cache) && getValid(cache,i)){

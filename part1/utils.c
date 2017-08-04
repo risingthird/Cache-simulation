@@ -97,8 +97,8 @@ uint32_t getTag(cache_t* cache, uint32_t address) {
 */
 uint32_t getIndex(cache_t* cache, uint32_t address) {
 	/* Your Code Here. */
-    uint32_t indexBits = cache->totalDataSize / cache->blockDataSize / cache->n;
-    uint8_t index = log_2(indexBits);
+    //uint32_t indexBits = cache->totalDataSize / cache->blockDataSize / cache->n;
+    //uint8_t index = log_2(indexBits);
     uint32_t temp = address;
     temp = temp << getTagSize(cache); // remove leading tag bits
     temp = temp >> (log_2(cache->blockDataSize)+getTagSize(cache)); // shift left to remove 0s and offset bits
