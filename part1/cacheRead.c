@@ -101,7 +101,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 byteInfo_t readByte(cache_t* cache, uint32_t address) {
 	byteInfo_t retVal;
 	/* Your Code Here. */
-    if(!validAddresses(address,1)) {retVal.success = false;return retval;}
+    if(!validAddresses(address,1)) {retVal.success = false;return retVal;}
     //if((address>>1)<<1 != address) retVal.success = false; // aligment error
     //uint32_t dataSize = cace->blockDataSize;
     uint8_t* temp = readFromCache(cache,address,1);
