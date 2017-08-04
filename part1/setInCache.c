@@ -81,7 +81,7 @@ void setLRU(cache_t* cache, uint32_t blockNumber, long newLRU) {
     else{*/
         
             for(int i =0; i<lrubits; i++){
-                setBit(cache, location+i, (newLRU>>(lrubits-i))&1);
+                setBit(cache, location+i, (newLRU>>(lrubits-i-1))&1);
             }
         
     //}
