@@ -196,7 +196,7 @@ void clearCache(cache_t* cache) {
 	/* Your Code Here. */
     int blockNumber = getNumSets(cache) << log_2(cache->n);
     for(int i =0;i<blockNumber;i++){
-        setValid(cache, getValidLocation(cache,i),0);
+        setValid(cache, i,0);
     }
     initializeLRU(cache);
 }
