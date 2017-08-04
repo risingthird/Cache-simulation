@@ -52,22 +52,30 @@ uint8_t* fetchBlock(cache_t* cache, uint32_t blockNumber) {
 uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 	/* Your Code Here. */
     // first we need to check the index bits;
+    if(!validAddresses(address)) return NULL;
+    uint32_t tag = getTag(cache,address);
+    uint32_t offset = getOffset(cache,address);
     uint32_t indexBits = getIndex(cache, address);
     uint32_t blockend = (indexBits+1)*(cache->n)-1;
     uint32_t blockstart = (indexBits)*(cache->n);
     bool match = false;
-    uint32_t blockFound;
-    for(uint32_t i=blockstart;i<=blockend;i++){
-        if(getValid(cache,i)){
-            
+    uint32_t i,j,k;
+    /*for(i=blockstart;i<=blockend;i++){
+        if(getValid(cache,i)&&tagEquals(i,getTag(cache,address),cache)){
+            uint8_t* data = getData(cache,offset,i,dataSize);
+            return data;
         }
-        if(tagEquals(i,getTag(cache,address),cache)){
-            match = true;
-            blockFound = i;
-            break;
-        }
+    }*/
+    evictionInfo_t* info = findEviction(cache,address);
+    if(info->match){
+        uint8_t* data = getData(cache,offset,i,dataSize);
+        return data;
     }
-    
+    else{
+        uint8_t* data = readFromMem(cache,address);
+        evict(cache,info->blockNumber);
+    }
+    delete(info);
 	return NULL;
 }
 
