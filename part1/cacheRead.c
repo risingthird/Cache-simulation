@@ -52,7 +52,7 @@ uint8_t* fetchBlock(cache_t* cache, uint32_t blockNumber) {
 uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 	/* Your Code Here. */
     // first we need to check the index bits;
-    if(!validAddresses(address)) return NULL;
+    if(!validAddresses(address,dataSize)) return NULL;
     uint32_t tag = getTag(cache,address);
     uint32_t offset = getOffset(cache,address);
     uint32_t indexBits = getIndex(cache, address);
