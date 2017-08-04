@@ -74,7 +74,9 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 /*
 	Takes in a cache and an address and fetches a byte of data.
 	Returns a struct containing a bool field of whether or not
-	data was successfully read and the data.
+	data was successfully read and the data. This field should be
+	false only if there is an alignment error or there is an invalid
+	address selected.
 */
 byteInfo_t readByte(cache_t* cache, uint32_t address) {
 	byteInfo_t retVal;
@@ -85,7 +87,9 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
 /*
 	Takes in a cache and an address and fetches a halfword of data.
 	Returns a struct containing a bool field of whether or not
-	data was successfully read and the data.
+	data was successfully read and the data. This field should be
+	false only if there is an alignment error or there is an invalid
+	address selected.
 */
 halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
 	halfWordInfo_t retVal;
@@ -96,7 +100,9 @@ halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
 /*
 	Takes in a cache and an address and fetches a word of data.
 	Returns a struct containing a bool field of whether or not
-	data was successfully read and the data.
+	data was successfully read and the data. This field should be
+	false only if there is an alignment error or there is an invalid
+	address selected.
 */
 wordInfo_t readWord(cache_t* cache, uint32_t address) {
 	wordInfo_t retVal;
@@ -107,7 +113,9 @@ wordInfo_t readWord(cache_t* cache, uint32_t address) {
 /*
 	Takes in a cache and an address and fetches a double word of data.
 	Returns a struct containing a bool field of whether or not
-	data was successfully read and the data.
+	data was successfully read and the data. This field should be
+	false only if there is an alignment error or there is an invalid
+	address selected.
 */
 doubleWordInfo_t readDoubleWord(cache_t* cache, uint32_t address) {
 	doubleWordInfo_t retVal;
