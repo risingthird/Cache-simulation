@@ -194,8 +194,8 @@ void setTag(cache_t* cache, uint32_t tag, uint32_t blockNumber) {
 */
 void clearCache(cache_t* cache) {
 	/* Your Code Here. */
-    uint32_t blockNumber = cache->totalDataSize/cache->blockDataSize;
-    for(uint32_t i =0;i<blockNumber;i++){
+    int blockNumber = getNumSets(cache) << log_2(cache->n);
+    for(int i =0;i<blockNumber;i++){
         setValid(cache, getValidLocation(cache,i),0);
     }
     initializeLRU(cache);
