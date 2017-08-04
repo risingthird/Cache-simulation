@@ -75,7 +75,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
         uint8_t* data = readFromMem(cache,address);
         evict(cache,info->blockNumber);
     }
-    delete(info);
+    free(info);
 	return NULL;
 }
 
