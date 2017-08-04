@@ -60,7 +60,7 @@ void setBit(cache_t* cache, uint64_t location, uint8_t value) {
         cache->contents[byteLoc] = (uint8_t) temp;
     }*/
     uint8_t temp = cache->contents[byteLoc];
-    temp = temp &(~(1<<(7-shiftAmount))) | (value<<(7-shiftAmount));
+    temp = (temp &(~(1<<(7-shiftAmount)))) | (value<<(7-shiftAmount));
     cache->contents[byteLoc] = temp;
     
 }
@@ -75,7 +75,7 @@ void setLRU(cache_t* cache, uint32_t blockNumber, long newLRU) {
     //uint64_t byteLoc  = location >> 3;
     uint8_t lrubits = numLRUBits(cache);
     //uint8_t mask = 0;
-    int shiftAmount = location & 7;
+    //int shiftAmount = location & 7;
     /*if(shiftAmount == 0)
         cache->contents[byteLoc] = (uint8_t) newLRU<<(7-lrubits);
     else{*/
