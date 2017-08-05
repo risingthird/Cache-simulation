@@ -109,14 +109,14 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
     //uint32_t dataSize = cace->blockDataSize;
     //uint8_t* temp = readFromCache(cache,address,1);
     uint32_t offset = getOffset(cache,address);
-    uint8_t* temp = readFromCache(cache,address-offset,1);
+    uint8_t* temp = readFromCache(cache,address,1);
     evictionInfo_t* info = findEviction(cache,address);
-    //if(info->match){
+    if(info->match){
         retVal.data = temp[0];
-    //}
-    //else{
-        //retVal.data = temp[0+offset];
-    //}
+    }
+    else{
+        retVal.data = temp[0+offset];
+    }
     retVal.success = true;
     free(info);
     free(temp);
@@ -157,9 +157,16 @@ halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
     else{
         uint8_t* temp1 = readFromCache(cache,address,1);
         uint8_t* temp2 = readFromCache(cache,address+1,1);
-        retVal.data = (((uint16_t) temp1[0])<<8) | temp2[0];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint16_t) temp1[0])<<8) | temp2[0];
+        }
+        else{
+            retVal.data = (((uint16_t) temp1[0+offset])<<8) | temp2[0+offset];
+        }
         free(temp1);
         free(temp2);
+        free(info);
         return retVal;
     }
     
@@ -180,11 +187,19 @@ wordInfo_t readWord(cache_t* cache, uint32_t address) {
         retVal.success = false;return retVal;
     }
     retVal.success = true;
+    uint32_t offset = getOffset(cache,address);
     uint32_t blockDataSize = cache->blockDataSize;
     if(blockDataSize>4){
         uint8_t* temp = readFromCache(cache,address,4);
-        retVal.data = (((uint32_t) temp[0])<<24) | (((uint32_t)temp[1])<<16) | (((uint32_t)temp[2])<<8) | (uint32_t)temp[3];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint32_t) temp[0])<<24) | (((uint32_t)temp[1])<<16) | (((uint32_t)temp[2])<<8) | (uint32_t)temp[3];
+        }
+        else{
+            retVal.data = (((uint32_t) temp[0+offset])<<24) | (((uint32_t)temp[1+offset])<<16) | (((uint32_t)temp[2+offset])<<8) | (uint32_t)temp[3+offset];
+        }
         free(temp);
+        free(info);
         //printf("%u |", retVal.data);
         return retVal;
 
@@ -192,10 +207,16 @@ wordInfo_t readWord(cache_t* cache, uint32_t address) {
     else if(blockDataSize==2){
         uint8_t* temp1 = readFromCache(cache,address,2);
         uint8_t* temp2 = readFromCache(cache,address+2,2);
-        //retVal.data = (uint32_t) temp1[0]<<24 | temp1[1]<<16 | temp2[0]<<8 | temp2[1];
-        retVal.data = (((uint32_t) temp1[0])<<24) | (((uint32_t)temp1[1])<<16) | (((uint32_t)temp2[0])<<8) | (uint32_t)temp2[1];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint32_t) temp1[0])<<24) | (((uint32_t)temp1[1])<<16) | (((uint32_t)temp2[0])<<8) | (uint32_t)temp2[1];
+        }
+        else{
+            retVal.data = (((uint32_t) temp1[0+offset])<<24) | (((uint32_t)temp1[1+offset])<<16) | (((uint32_t)temp2[0+offset])<<8) | (uint32_t)temp2[1+offset];
+        }
         free(temp1);
         free(temp2);
+        free(info);
         return retVal;
     }
     else{
@@ -203,11 +224,18 @@ wordInfo_t readWord(cache_t* cache, uint32_t address) {
         uint8_t* temp2 = readFromCache(cache,address+1,1);
         uint8_t* temp3 = readFromCache(cache,address+2,1);
         uint8_t* temp4 = readFromCache(cache,address+3,1);
-        retVal.data = (((uint32_t) temp1[0])<<24) | (((uint32_t)temp2[0])<<16) | (((uint32_t)temp3[0])<<8) | (uint32_t)temp4[0];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint32_t) temp1[0])<<24) | (((uint32_t)temp2[0])<<16) | (((uint32_t)temp3[0])<<8) | (uint32_t)temp4[0];
+        }
+        else{
+            retVal.data = (((uint32_t) temp1[0+offset])<<24) | (((uint32_t)temp2[0+offset])<<16) | (((uint32_t)temp3[0+offset])<<8) | (uint32_t)temp4[0+offset];
+        }
         free(temp1);
         free(temp2);
         free(temp3);
         free(temp4);
+        free(info);
         return retVal;
     }
 	return retVal;
