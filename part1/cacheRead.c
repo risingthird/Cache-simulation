@@ -78,7 +78,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
         uint8_t* data = readFromMem(cache,address);
         uint32_t oldTag = extractTag(cache,info->blockNumber);
         //if(getDirty(cache,info->blockNumber))
-        //evict(cache,info->blockNumber);
+        evict(cache,info->blockNumber);
         setData(cache,data,info->blockNumber,dataSize,offset);
         setValid(cache,info->blockNumber,1);
         setDirty(cache,info->blockNumber,1);
