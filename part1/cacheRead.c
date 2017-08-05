@@ -54,9 +54,9 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
     // first we need to check the index bits;
     if(!validAddresses(address,dataSize)) return NULL;
     
-    uint32_t tag = getTag(cache,address);
+    //uint32_t tag = getTag(cache,address);
     uint32_t offset = getOffset(cache,address);
-    uint32_t indexBits = getIndex(cache, address);
+    //uint32_t indexBits = getIndex(cache, address);
     //uint32_t blockend = (indexBits+1)*(cache->n)-1;
     //uint32_t blockstart = (indexBits)*(cache->n);
     //bool match = false;
@@ -269,15 +269,24 @@ doubleWordInfo_t readDoubleWord(cache_t* cache, uint32_t address) {
             | (((uint64_t) temp[4+offset]) << 24) | (((uint64_t) temp[5+offset]) << 16) | (((uint64_t) temp[6+offset]) << 8) | temp[7+offset];
         }
         free(temp);
+        free(info);
         return retVal;
     }
     else if(blockDataSize ==4){
         uint8_t* temp1 = readFromCache(cache,address,4);
         uint8_t* temp2 = readFromCache(cache,address+4,4);
-        retVal.data = (((uint64_t) temp1[0]) << 56) | (((uint64_t) temp1[1]) << 48) | (((uint64_t) temp1[2]) << 40) | (((uint64_t) temp1[3]) << 32)
-        | (((uint64_t) temp2[0]) << 24) | (((uint64_t) temp2[1]) << 16) | (((uint64_t) temp2[3]) << 8) | temp2[4];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint64_t) temp1[0]) << 56) | (((uint64_t) temp1[1]) << 48) | (((uint64_t) temp1[2]) << 40) | (((uint64_t) temp1[3]) << 32)
+            | (((uint64_t) temp2[0]) << 24) | (((uint64_t) temp2[1]) << 16) | (((uint64_t) temp2[3]) << 8) | temp2[4];
+        }
+        else{
+            retVal.data = (((uint64_t) temp1[0+offset]) << 56) | (((uint64_t) temp1[1+offset]) << 48) | (((uint64_t) temp1[2+offset]) << 40) | (((uint64_t) temp1[3+offset]) << 32)
+            | (((uint64_t) temp2[0+offset]) << 24) | (((uint64_t) temp2[1+offset]) << 16) | (((uint64_t) temp2[3+offset]) << 8) | temp2[4+offset];
+        }
         free(temp1);
         free(temp2);
+        free(info);
         return retVal;
     }
     else if(blockDataSize==2){
@@ -285,12 +294,20 @@ doubleWordInfo_t readDoubleWord(cache_t* cache, uint32_t address) {
         uint8_t* temp2 = readFromCache(cache,address+2,2);
         uint8_t* temp3 = readFromCache(cache,address+4,2);
         uint8_t* temp4 = readFromCache(cache,address+6,2);
-        retVal.data = (((uint64_t) temp1[0]) << 56) | (((uint64_t) temp1[1]) << 48) | (((uint64_t) temp2[0]) << 40) | (((uint64_t) temp2[1]) << 32)
-        | (((uint64_t) temp3[0]) << 24) | (((uint64_t) temp3[1]) << 16) | (((uint64_t) temp4[0]) << 8) | temp4[2];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint64_t) temp1[0]) << 56) | (((uint64_t) temp1[1]) << 48) | (((uint64_t) temp2[0]) << 40) | (((uint64_t) temp2[1]) << 32)
+            | (((uint64_t) temp3[0]) << 24) | (((uint64_t) temp3[1]) << 16) | (((uint64_t) temp4[0]) << 8) | temp4[2];
+        }
+        else{
+            retVal.data = (((uint64_t) temp1[0+offset]) << 56) | (((uint64_t) temp1[1+offset]) << 48) | (((uint64_t) temp2[0+offset]) << 40) | (((uint64_t) temp2[1+offset]) << 32)
+            | (((uint64_t) temp3[0+offset]) << 24) | (((uint64_t) temp3[1+offset]) << 16) | (((uint64_t) temp4[0+offset]) << 8) | temp4[2+offset];
+        }
         free(temp1);
         free(temp2);
         free(temp3);
         free(temp4);
+        free(info);
         return retVal;
     }
     else{
@@ -302,8 +319,15 @@ doubleWordInfo_t readDoubleWord(cache_t* cache, uint32_t address) {
         uint8_t* temp6 = readFromCache(cache,address+5,1);
         uint8_t* temp7 = readFromCache(cache,address+6,1);
         uint8_t* temp8 = readFromCache(cache,address+7,1);
-        retVal.data = (((uint64_t) temp1[0]) << 56) | (((uint64_t) temp2[0]) << 48) | (((uint64_t) temp3[0]) << 40) | (((uint64_t) temp4[0]) << 32)
-        | (((uint64_t) temp5[0]) << 24) | (((uint64_t) temp6[0]) << 16) | (((uint64_t) temp7[0]) << 8) | temp8[0];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint64_t) temp1[0]) << 56) | (((uint64_t) temp2[0]) << 48) | (((uint64_t) temp3[0]) << 40) | (((uint64_t) temp4[0]) << 32)
+            | (((uint64_t) temp5[0]) << 24) | (((uint64_t) temp6[0]) << 16) | (((uint64_t) temp7[0]) << 8) | temp8[0];
+        }
+        else{
+            retVal.data = (((uint64_t) temp1[0+offset]) << 56) | (((uint64_t) temp2[0+offset]) << 48) | (((uint64_t) temp3[0+offset]) << 40) | (((uint64_t) temp4[0+offset]) << 32)
+            | (((uint64_t) temp5[0+offset]) << 24) | (((uint64_t) temp6[0+offset]) << 16) | (((uint64_t) temp7[0+offset]) << 8) | temp8[0+offset];
+        }
         free(temp1);
         free(temp2);
         free(temp3);
@@ -312,6 +336,7 @@ doubleWordInfo_t readDoubleWord(cache_t* cache, uint32_t address) {
         free(temp6);
         free(temp7);
         free(temp8);
+        free(info);
         return retVal;
     }
 	return retVal;
