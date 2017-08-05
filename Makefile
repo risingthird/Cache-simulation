@@ -70,7 +70,7 @@ part1-main: clean copy
 	$(CC) $(CFLAGS) -DTESTING -o caches part1/part1Main.c part1/utils.c part1/setInCache.c part1/mem.c part1/getFromCache.c part1/cacheWrite.c part1/cacheRead.c part2/hitRate.c $(CUNIT) -lm
 
 part2-main: clean copy
-	$(CC) $(CFLAGS) -DTESTING -o caches part2/part2Main.c part1/utils.c part1/setInCache.c part1/mem.c part1/getFromCache.c part1/cacheWrite.c part1/cacheRead.c part2/hitRate.c part2/problem1.c part2/problem2.c part2/problem3.c part2/problem1Test.c part2/problem2Test.c part2/problem3Test.c $(CUNIT) -lm
+	$(CC) $(CFLAGS) -DTESTING -o caches part2/part2Main.c part1/utils.c part1/setInCache.c part1/mem.c part1/getFromCache.c part1/cacheWrite.c part1/cacheRead.c part2/hitRate.c part2/problem1.c part2/problem2.c part2/problem3.c $(CUNIT) -lm
 
 part3-main: clean copy
 	$(CC) $(CFLAGS) -DTESTING -o caches part3/part3Main.c part1/utils.c part1/setInCache.c part1/mem.c part1/getFromCache.c part1/cacheWrite.c part1/cacheRead.c part2/hitRate.c part2/problem1.c part2/problem2.c part3/coherenceUtils.c part3/coherenceRead.c part3/coherenceWrite.c $(CUNIT) -lm
