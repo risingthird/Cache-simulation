@@ -90,7 +90,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
         free(info);
         return data;
     }
-    free(info);
+    //free(info);
 	return NULL;
 }
 
