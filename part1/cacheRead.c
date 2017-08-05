@@ -139,7 +139,7 @@ halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
     else{
         uint8_t* temp1 = readFromCache(cache,address,1);
         uint8_t* temp2 = readFromCache(cache,address+1,1);
-        retVal.data = (((uint16_t) temp1[0])<<8) | temp2[0]);
+        retVal.data = ((((uint16_t) temp1[0])<<8) | temp2[0]);
         free(temp1);
         free(temp2);
         return retVal;
