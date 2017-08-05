@@ -86,7 +86,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
         //setLRU(cache,info->blockNumber,info->LRU);
         updateLRU(cache,oldTag,indexBits,info->LRU);
         setTag(cache,tag,info->blockNumber);*/
-        writeDataToCache(cache, address,data,dataSize,oldTag, info);
+        writeDataToCache(cache, address,data,dataSize,tag, info);
         free(info);
         return data;
     }
