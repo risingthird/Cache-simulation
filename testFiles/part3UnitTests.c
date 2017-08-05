@@ -12,7 +12,7 @@
 #include "../part3/coherenceWrite.h"
 
 void test_States() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -193,7 +193,7 @@ void test_States() {
 }
 
 void test_CoherenceReads() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -352,7 +352,7 @@ void test_CoherenceReads() {
 }
 
 void test_CoherenceWrites() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -836,7 +836,7 @@ void test_CoherenceWrites() {
 
 
 void test_TwoCaches() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;

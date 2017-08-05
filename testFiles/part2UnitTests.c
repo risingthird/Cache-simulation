@@ -15,7 +15,7 @@
 	Tests basic hit rate from a series of hits/misses without a pattern.	
 */
 void test_BasicHitRate() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -165,7 +165,7 @@ void test_BasicHitRate() {
 	list[i] += list[i].	
 */
 void test_MediumHitRate() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	uint32_t address;
@@ -300,7 +300,7 @@ void test_MediumHitRate() {
 }
 
 void test_HitRate1() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	uint32_t address;
@@ -351,7 +351,7 @@ void test_HitRate1() {
 }
 
 void test_HitRate2() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	uint32_t addr1;

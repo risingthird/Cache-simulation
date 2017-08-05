@@ -9,7 +9,7 @@
 	Function used to return the result of the third cache parameters question.
 */
 cache_t* params3() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
