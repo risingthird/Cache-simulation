@@ -70,14 +70,15 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
     evictionInfo_t* info = findEviction(cache,address);
     // first check whether target is already in cache
     if(info->match){
-        uint8_t* data = getData(cache,address,info->blockNumber,dataSize);
+        uint8_t* data = getData(cache,offset,info->blockNumber,dataSize);
         free(info);
         return data;
     }
     else{
         uint8_t* data = readFromMem(cache,address);
         uint32_t oldTag = extractTag(cache,info->blockNumber);
-        evict(cache,info->blockNumber);
+        if(getDirty(cache,info->blockNumber))
+            evict(cache,info->blockNumber);
         setValid(cache,info->blockNumber,1);
         setDirty(cache,info->blockNumber,1);
         setShared(cache,info->blockNumber,0);
