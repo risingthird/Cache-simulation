@@ -856,7 +856,7 @@ void test_Read() {
 	outputData = fetchBlock(cache, 5);
 	secondOutput = readFromMem(cache, 0x61cddbd0);
 	for (uint8_t i = 0; i < 16; i++) {
-        printf("output: %u, secout: %u\n", outputData[i],secondOutput[i]);
+        //printf("output: %u, secout: %u\n", outputData[i],secondOutput[i]);
 		CU_ASSERT_EQUAL(outputData[i], secondOutput[i]);
 	}
 	CU_ASSERT_EQUAL(byteRead.success, true);
@@ -868,6 +868,7 @@ void test_Read() {
 	outputData = fetchBlock(cache, 7);
 	secondOutput = readFromMem(cache, 0x61cff0f0);
 	for (uint8_t i = 0; i < 16; i++) {
+        printf("output: %d, secout: %d\n", outputData[i],secondOutput[i]);
 		CU_ASSERT_EQUAL(outputData[i], secondOutput[i]);
 	}
 	CU_ASSERT_EQUAL(halfWordRead.success, true);
