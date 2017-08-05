@@ -131,11 +131,16 @@ halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
         uint8_t* temp = readFromCache(cache,address,2);
         retVal.data = (uint16_t) temp[0]<<8 | temp[1];
         free(temp);
-        printf("%u |", retVal.data);
+        //printf("%u |", retVal.data);
         return retVal;
     }
     else{
-        
+        uint8_t* temp1 = readFromCache(cache,address,1);
+        uint8_t* temp2 = readFromCache(cache,address+1,1);
+        retVal.data = (uint16_t) temp1[0]<<8 | temp2[0];
+        free(temp1);
+        free(temp2);
+        return retVal;
     }
     
     return retVal;
@@ -151,6 +156,39 @@ halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
 wordInfo_t readWord(cache_t* cache, uint32_t address) {
 	wordInfo_t retVal;
 	/* Your Code Here. */
+    if(!validAddresses(address,4) || (address>>2)<<2 !=address) {
+        retVal.success = false;return retVal;
+    }
+    retVal.success = true;
+    uint32_t blockDataSize = cache->blockDataSize;
+    if(blockDataSize>4){
+        uint8_t* temp = readFromCache(cache,address,4);
+        retVal.data = (uint32_t) temp[0]<<24 | temp[1]<<16 | temp[2]<<8 | temp[3];
+        free(temp);
+        //printf("%u |", retVal.data);
+        return retVal;
+
+    }
+    else if(blockDataSize==2){
+        uint8_t* temp1 = readFromCache(cache,address,2);
+        uint8_t* temp2 = readFromCache(cache,address+2,2);
+        retVal.data = (uint32_t) temp1[0]<<24 | temp1[1]<<16 | temp2[0]<<8 | temp2[1];
+        free(temp1);
+        free(temp2);
+        return retVal;
+    }
+    else{
+        uint8_t* temp1 = readFromCache(cache,address,1);
+        uint8_t* temp2 = readFromCache(cache,address+1,1);
+        uint8_t* temp3 = readFromCache(cache,address+2,1);
+        uint8_t* temp4 = readFromCache(cache,address+3,1);
+        retVal.data = (uint32_t) temp1[0]<<24 | temp2[0]<<16 | temp3[0]<<8 | temp4[0];
+        free(temp1);
+        free(temp2);
+        free(temp3);
+        free(temp4);
+        return retVal;
+    }
 	return retVal;
 }
 
