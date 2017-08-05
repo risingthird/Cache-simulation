@@ -990,6 +990,7 @@ void test_Read() {
 	}
 	CU_ASSERT_EQUAL(byteRead.success, true);
 	CU_ASSERT_EQUAL(byteRead.data, secondOutput[3]);
+    printf("byteread: %u, secout: %u\n", byteRead.data, secondOutput[3]);
 	free(outputData);
 	free(secondOutput);
 
