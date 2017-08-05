@@ -78,13 +78,12 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
         uint8_t* data = readFromMem(cache,address);
         uint32_t oldTag = extractTag(cache,info->blockNumber);
         //if(getDirty(cache,info->blockNumber))
-        
+        //evict(cache,info->blockNumber);
         setData(cache,data,info->blockNumber,dataSize,offset);
         setValid(cache,info->blockNumber,1);
         setDirty(cache,info->blockNumber,1);
         setShared(cache,info->blockNumber,0);
         //setLRU(cache,info->blockNumber,info->LRU);
-        evict(cache,info->blockNumber);
         updateLRU(cache,oldTag,indexBits,info->LRU);
         setTag(cache,tag,info->blockNumber);
         free(info);
