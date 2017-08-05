@@ -11,7 +11,7 @@
 #include "../part1/cacheWrite.h"
 
 void test_Utils() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -265,7 +265,7 @@ void test_Getters() {
 }
 
 void test_Getters_and_Setters() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -624,7 +624,7 @@ void test_Extraction() {
 }
 
 void test_Mem() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -764,7 +764,7 @@ void test_Mem() {
 }
 
 void test_Read() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	uint32_t wordVal;
@@ -1033,7 +1033,7 @@ void test_Read() {
 }
 
 void test_ReadErrors() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -1076,7 +1076,7 @@ void test_ReadErrors() {
 }
 
 void test_Write() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -1524,7 +1524,7 @@ void test_Write() {
 }
 
 void test_writeErrors() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -1556,7 +1556,7 @@ void test_writeErrors() {
 }
 
 void test_CreateDMCache() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -1609,7 +1609,7 @@ void test_CreateDMCache() {
 }
 
 void test_CreateFACache(){
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
@@ -1657,7 +1657,7 @@ void test_CreateFACache(){
 
 
 void test_Create4WaysCache() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;

@@ -10,7 +10,7 @@
 #include "coherenceWrite.h"
 
 int main() {
-	uint8_t n;
+	uint32_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* memFile;
