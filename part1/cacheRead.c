@@ -115,7 +115,7 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
         retVal.data = temp[0];
     //}
     //else{
-        retVal.data = temp[0+offset];
+        //retVal.data = temp[0+offset];
     //}
     retVal.success = true;
     free(info);
