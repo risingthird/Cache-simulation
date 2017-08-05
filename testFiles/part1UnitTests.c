@@ -895,6 +895,7 @@ void test_Read() {
 	outputData = fetchBlock(cache, 4);
 	for (uint8_t i = 0; i < 16; i++) {
 		CU_ASSERT_EQUAL(input3[i], outputData[i]);
+        printf("output: %u\n", outputData[i]);
 	}
 	free(outputData);
 
