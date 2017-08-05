@@ -110,7 +110,7 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
     uint8_t* temp = readFromCache(cache,address,1);
     retVal.data = temp[0];
     retVal.success = true;
-    free(temp);
+    //free(temp);
     //printf("%u |", retVal.data);
 	return retVal;
 }
