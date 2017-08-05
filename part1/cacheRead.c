@@ -175,7 +175,7 @@ wordInfo_t readWord(cache_t* cache, uint32_t address) {
         uint8_t* temp1 = readFromCache(cache,address,2);
         uint8_t* temp2 = readFromCache(cache,address+2,2);
         //retVal.data = (uint32_t) temp1[0]<<24 | temp1[1]<<16 | temp2[0]<<8 | temp2[1];
-        retVal.data = (((uint32_t) temp1[0])<<24) | (((uint32_t)temp1[1])<<16) | (((uint32_t)temp2[0])<<8) | (uint32_t)temp2[1]);
+        retVal.data = (((uint32_t) temp1[0])<<24) | (((uint32_t)temp1[1])<<16) | (((uint32_t)temp2[0])<<8) | (uint32_t)temp2[1];
         free(temp1);
         free(temp2);
         return retVal;
