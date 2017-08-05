@@ -70,7 +70,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
     evictionInfo_t* info = findEviction(cache,address);
     // first check whether target is already in cache
     if(info->match){
-        uint8_t* data = getData(cache,offset,info->blockNumber,dataSize);
+        uint8_t* data = getData(cache,address,info->blockNumber,dataSize);
         free(info);
         return data;
     }
