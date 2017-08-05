@@ -107,16 +107,18 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
     if(!validAddresses(address,1)) {retVal.success = false;return retVal;}
     //if((address>>1)<<1 != address) retVal.success = false; // aligment error
     //uint32_t dataSize = cace->blockDataSize;
-    uint8_t* temp = readFromCache(cache,address,1);
+    //uint8_t* temp = readFromCache(cache,address,1);
     uint32_t offset = getOffset(cache,address);
+    uint8_t* temp = readFromCache(cache,address-offset,1);
     evictionInfo_t* info = findEviction(cache,address);
-    if(info->match){
+    //if(info->match){
         retVal.data = temp[0];
-    }
-    else{
+    //}
+    //else{
         retVal.data = temp[0+offset];
-    }
+    //}
     retVal.success = true;
+    free(info);
     free(temp);
     //printf("%u |", retVal.data);
 	return retVal;
@@ -132,14 +134,23 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
 halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
 	halfWordInfo_t retVal;
 	/* Your Code Here. */
+    
     if(!validAddresses(address,2) || (address>>1)<<1 !=address) {
         retVal.success = false;return retVal;
     }
     retVal.success = true;
+    uint32_t offset = getOffset(cache,address);
     if(cache->blockDataSize>2){
         uint8_t* temp = readFromCache(cache,address,2);
-        retVal.data = (((uint16_t) temp[0])<<8) | temp[1];
+        evictionInfo_t* info = findEviction(cache,address);
+        if(info->match){
+            retVal.data = (((uint16_t) temp[0])<<8) | temp[1];
+        }
+        else{
+            retVal.data = (((uint16_t) temp[0+offset])<<8) | temp[1+offset];
+        }
         free(temp);
+        free(info);
         //printf("%u |", retVal.data);
         return retVal;
     }
