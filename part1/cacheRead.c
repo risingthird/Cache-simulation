@@ -109,7 +109,13 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
     //uint32_t dataSize = cace->blockDataSize;
     uint8_t* temp = readFromCache(cache,address,1);
     uint32_t offset = getOffset(cache,address);
-    retVal.data = temp[0+offset];
+    evictionInfo_t* info = findEviction(cache,address);
+    if(info->match){
+        retVal.data = temp[0];
+    }
+    else{
+        retVal.data = temp[0+offset];
+    }
     retVal.success = true;
     free(temp);
     //printf("%u |", retVal.data);
