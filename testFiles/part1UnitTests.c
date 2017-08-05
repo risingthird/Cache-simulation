@@ -494,6 +494,135 @@ void test_Getters_and_Setters() {
 	deleteCache(cache);
 }
 
+void test_Extraction() {
+	uint32_t n;
+	uint32_t blockDataSize;
+	uint32_t totalDataSize;
+	char* memFile;
+	cache_t* cache;
+	memFile = "testFiles/physicalMemory1.txt";
+
+	//Small Direct Mapped Cache
+	n = 1;
+	blockDataSize = 8;
+	totalDataSize = 64;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	for (int i = 0; i < 8; i++) {
+		CU_ASSERT_EQUAL(extractIndex(cache, i), i);
+	}
+
+	setTag(cache, getTag(cache, 0x61cf0000), 0);
+	setTag(cache, getTag(cache, 0x61cf2017), 2);
+	setTag(cache, getTag(cache, 0x61c92122), 4);
+	setTag(cache, getTag(cache, 0x61c980cf), 1);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf0000), 0, 0), 0x61cf0000);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf2017), 2, 7), 0x61cf2017);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c92122), 4, 2), 0x61c92122);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c980cf), 1, 7), 0x61c980cf);
+	deleteCache(cache);
+
+	//Big Direct Mapped Cache
+	n = 1;
+	blockDataSize = 32;
+	totalDataSize = 16384;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	for (int i = 0; i < 512; i++) {
+		CU_ASSERT_EQUAL(extractIndex(cache, i), i);
+	}
+
+	setTag(cache, getTag(cache, 0x61cf0000), 0);
+	setTag(cache, getTag(cache, 0x61cf2017), 256);
+	setTag(cache, getTag(cache, 0x61c92122), 265);
+	setTag(cache, getTag(cache, 0x61c980cf), 6);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf0000), 0, 0), 0x61cf0000);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf2017), 256, 23), 0x61cf2017);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c92122), 265, 2), 0x61c92122);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c980cf), 6, 15), 0x61c980cf);
+	deleteCache(cache);
+	//Small Fully Associative Cache
+	n = 8;
+	blockDataSize = 16;
+	totalDataSize = 128;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	for (int i = 0; i < 8; i++) {
+		CU_ASSERT_EQUAL(extractIndex(cache, i), 0);
+	}
+
+	setTag(cache, getTag(cache, 0x61cf0000), 0);
+	setTag(cache, getTag(cache, 0x61cf2017), 3);
+	setTag(cache, getTag(cache, 0x61c92122), 5);
+	setTag(cache, getTag(cache, 0x61c980cf), 7);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf0000), 0, 0), 0x61cf0000);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf2017), 3, 7), 0x61cf2017);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c92122), 5, 2), 0x61c92122);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c980cf), 7, 15), 0x61c980cf);
+	deleteCache(cache);
+
+	//Big Fully Associative Cache
+	n = 256;
+	blockDataSize = 128;
+	totalDataSize = 32768;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	for (int i = 0; i < 256; i++) {
+		CU_ASSERT_EQUAL(extractIndex(cache, i), 0);
+	}
+
+	setTag(cache, getTag(cache, 0x61cf0000), 0);
+	setTag(cache, getTag(cache, 0x61cf2017), 35);
+	setTag(cache, getTag(cache, 0x61c92122), 234);
+	setTag(cache, getTag(cache, 0x61c980cf), 187);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf0000), 0, 0), 0x61cf0000);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf2017), 35, 23), 0x61cf2017);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c92122), 234, 34), 0x61c92122);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c980cf), 187, 79), 0x61c980cf);
+	deleteCache(cache);
+
+	//Small N-ways Set Associative Cache
+	n = 4;
+	blockDataSize = 4;
+	totalDataSize = 32;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	for (int i = 0; i < 8; i++) {
+		CU_ASSERT_EQUAL(extractIndex(cache, i), (i >> 2));
+	}
+
+	setTag(cache, getTag(cache, 0x61cf0000), 0);
+	setTag(cache, getTag(cache, 0x61cf2017), 6);
+	setTag(cache, getTag(cache, 0x61c92122), 3);
+	setTag(cache, getTag(cache, 0x61c980cf), 5);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf0000), 0, 0), 0x61cf0000);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf2017), 6, 3), 0x61cf2017);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c92122), 3, 2), 0x61c92122);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c980cf), 5, 3), 0x61c980cf);
+	deleteCache(cache);
+
+	//Big N-ways Set Associative Cache
+	n = 128;
+	blockDataSize = 2;
+	totalDataSize = 8192;
+	cache = createCache(n, blockDataSize, totalDataSize, memFile);
+	CU_ASSERT_PTR_NOT_NULL(cache);
+	for (int i = 0; i < 4096; i++) {
+		CU_ASSERT_EQUAL(extractIndex(cache, i), (i >> 7));
+	}
+	
+	setTag(cache, getTag(cache, 0x61cf0000), 0);
+	setTag(cache, getTag(cache, 0x61cf2017), 1471);
+	setTag(cache, getTag(cache, 0x61c92122), 2200);
+	setTag(cache, getTag(cache, 0x61c980cf), 1001);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf0000), 0, 0), 0x61cf0000);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61cf2017), 1471, 1), 0x61cf2017);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c92122), 2200, 0), 0x61c92122);
+	CU_ASSERT_EQUAL(extractAddress(cache, getTag(cache, 0x61c980cf), 1001, 1), 0x61c980cf);
+	deleteCache(cache);
+
+}
+
 void test_Mem() {
 	uint8_t n;
 	uint32_t blockDataSize;
@@ -1640,6 +1769,9 @@ int main(int argc, char** argv) {
         		goto exit;
     		}
     		if (!CU_add_test(pSuite1, "test_Getters_and_Setters", test_Getters_and_Setters)) {
+        		goto exit;
+    		}
+    		if (!CU_add_test(pSuite1, "test_Extraction", test_Extraction)) {
         		goto exit;
     		}
     		if (argc - 1) {

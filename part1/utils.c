@@ -41,7 +41,7 @@ void physicalMemFailed() {
 	without copying. Returns a pointer to the cache. If any error occurs call
 	the appropriate error function and return NULL.
 */ 
-cache_t* createCache(uint8_t n, uint32_t blockDataSize, uint32_t totalDataSize, char* physicalMemoryName) {
+cache_t* createCache(uint32_t n, uint32_t blockDataSize, uint32_t totalDataSize, char* physicalMemoryName) {
 	/* Your Code Here. */
 	if (access(physicalMemoryName, F_OK) == -1) {
 		physicalMemFailed();
@@ -281,7 +281,8 @@ uint64_t getTagLocation(cache_t* cache, uint32_t blockNumber) {
 }
 
 /*
-	Takes in a cache, a block number, and an offset and gets the location
+	Takes in a cache, a block number, and an offset in bytes which can be 
+	represented in the offset portion of the T:I:O and gets the location
 	for the start of data section at that offset in bits.
 */
 uint64_t getDataLocation(cache_t* cache, uint32_t blockNumber, uint32_t offset) {
