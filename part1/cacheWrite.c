@@ -37,6 +37,17 @@ void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t data
     uint32_t tag = getTag(cache,address);
     uint32_t offset = getOffset(cache,address);
     uint32_t indexBits = getIndex(cache, address);
+    evictionInfo_t* info = findEviction(cache,address);
+    if(info->match){
+        writeDataToCache(cache,address,data,dataSize,info);
+        free(info);
+    }
+    else{
+        evict(cache,info->blockNumber);
+        uint32_t oldTag = extractTag(cache,info->blockNumber);
+        writeDataToCache(cache, address,data,dataSize,oldTag, info);
+        free(info);
+    }
 }
 
 /*
@@ -62,6 +73,8 @@ void writeDataToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t 
 */
 int writeByte(cache_t* cache, uint32_t address, uint8_t data) {
 	/* Your Code Here. */
+    if(!validAddresses(address,dataSize)) return -1;
+    writeToCache(cache,address,data,1);
 	return 0;
 }
 
