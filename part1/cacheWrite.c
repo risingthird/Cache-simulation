@@ -47,7 +47,7 @@ void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t data
         evict(cache,info->blockNumber);
         uint8_t* data1 = readFromMem(cache,address-offset);
         uint32_t oldTag = extractTag(cache,info->blockNumber);
-        writeDataToCache(cache, address-offset,data,cache->blockDataSize,oldTag, info);
+        writeDataToCache(cache, address-offset,data1,cache->blockDataSize,oldTag, info);
         free(info);
     }
 }
