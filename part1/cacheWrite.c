@@ -73,7 +73,7 @@ void writeDataToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t 
 */
 int writeByte(cache_t* cache, uint32_t address, uint8_t data) {
 	/* Your Code Here. */
-    if(!validAddresses(address,dataSize)) return -1;
+    if(!validAddresses(address,1)) return -1;
     uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t));
     written[0] = data;
     writeToCache(cache,address,written,1);
