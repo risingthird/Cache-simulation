@@ -1455,6 +1455,7 @@ void test_Write() {
 	mem[11] = 0xb4;
 	block = fetchBlock(cache, 0);
 	for (int i = 0; i < 16; i++) {
+        printf("block: %u, mem: %u", block[i],mem[i]);
 		CU_ASSERT_EQUAL(block[i], mem[i]);
 	}
 	free(block);
