@@ -94,11 +94,12 @@ int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
 	/* Your Code Here. */
     if(!validAddresses(address,1) || (address>>1)<<1 !=address) return -1;
     uint32_t blockDataSize = cache->blockDataSize;
+    uint32_t offset = getOffset(cache,address);
     if(blockDataSize>2){
         uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t)*2);
         written[0] = (uint8_t)data>>8;
         written[1] = (uint8_t)(data<<8)>>8;
-        writeToCache(cache,address,written,2);
+        writeToCache(cache,address+offset,written,2);
         free(written);
         return 0;
     }
