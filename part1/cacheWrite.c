@@ -79,6 +79,7 @@ int writeByte(cache_t* cache, uint32_t address, uint8_t data) {
     uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t));
     written[0] = data;
     writeToCache(cache,address,written,1);
+    free(written);
 	return 0;
 }
 
@@ -91,6 +92,27 @@ int writeByte(cache_t* cache, uint32_t address, uint8_t data) {
 */
 int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
 	/* Your Code Here. */
+    if(!validAddresses(address,1) || (address>>1)<<1 !=address) return -1;
+    uint32_t blockDataSize = cache->blockDataSize;
+    if(blockDataSize>=2){
+        uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t)*2);
+        written[0] = (uint8_t)data>>8;
+        written[1] = (uint8_t)(data<<8)>>8;
+        writeToCache(cache,address,2);
+        free(written);
+        return 0;
+    }
+    else{
+        uint8_t* written1 = (uint8_t*) malloc(sizeof(uint8_t));
+        uint8_t* written2 = (uint8_t*) malloc(sizeof(uint8_t));
+        written1[0] = (uint8_t)data>>8;
+        written2[0] = (uint8_t)(data<<8)>>8;
+        writeToCache(cache,address,1);
+        writeToCache(cache,address+1,1);
+        free(written1);
+        free(written2);
+        return 0;
+    }
 	return 0;
 }
 
