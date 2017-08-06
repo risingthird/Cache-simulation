@@ -40,13 +40,13 @@ void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t data
     evictionInfo_t* info = findEviction(cache,address);
     uint32_t oldTag = extractTag(cache,info->blockNumber);
     if(info->match){
-        writeDataToCache(cache,address,data,dataSize,oldTag,info);
+        writeDataToCache(cache,address,data,cache->blockDataSize,oldTag,info);
         free(info);
     }
     else{
         evict(cache,info->blockNumber);
         uint32_t oldTag = extractTag(cache,info->blockNumber);
-        writeDataToCache(cache, address,data,dataSize,oldTag, info);
+        writeDataToCache(cache, address,data,cache->blockDataSize,oldTag, info);
         free(info);
     }
 }
