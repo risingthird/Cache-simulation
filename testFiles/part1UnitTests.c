@@ -1247,7 +1247,7 @@ void test_Write() {
 
 	block = fetchBlock(cache, 3);
 	for (int i = 0; i < 16; i++) {
-        printf("block: %u, input: %u\n",block[i], input2[i] )
+        printf("block: %u, input: %u\n",block[i], input2[i] );
 		CU_ASSERT_EQUAL(block[i], input2[i]);
 	}
 	free(block);
