@@ -107,8 +107,8 @@ int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
         uint8_t* written2 = (uint8_t*) malloc(sizeof(uint8_t));
         written1[0] = (uint8_t)data>>8;
         written2[0] = (uint8_t)(data<<8)>>8;
-        writeToCache(cache,address,1);
-        writeToCache(cache,address+1,1);
+        writeToCache(cache,address,written1,1);
+        writeToCache(cache,address+1,written2,1);
         free(written1);
         free(written2);
         return 0;
