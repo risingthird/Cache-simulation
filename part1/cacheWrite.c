@@ -33,7 +33,7 @@ void evict(cache_t* cache, uint32_t blockNumber) {
 */
 void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t dataSize) {
     /* Your Code Here. */
-    if(!validAddresses(address,dataSize)) return NULL;
+    if(!validAddresses(address,dataSize)) return;
     uint32_t tag = getTag(cache,address);
     uint32_t offset = getOffset(cache,address);
     uint32_t indexBits = getIndex(cache, address);
