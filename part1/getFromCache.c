@@ -170,7 +170,7 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
         }
     }
     for(q=start;q<=end;q++){
-        if(!getValid(cache,q)){
+        if(getValid(cache,q)==0){
             info->blockNumber = q;
             info->LRU = getLRU(cache,q);
             info->match = false;
