@@ -160,12 +160,20 @@ evictionInfo_t* findEviction(cache_t* cache, uint32_t address) {
 	/* Your Code Here. */
     long lru = 0;
     //uint32_t finalBlockNumber =  start;
-    uint32_t i,j,k;
+    uint32_t i,j,k，q;
     for(i = start;i<=end;i++){
         if(tagEquals(i,tag,cache) && getValid(cache,i)){
             info->blockNumber = i;
             info->LRU = getLRU(cache,i);
             info->match = true;
+            return info;
+        }
+    }
+    for(q=start;q<=end;q++){
+        if(!getValid(cache,q)){
+            info->blockNumber = q;
+            info->LRU = getLRU(cache,q);
+            info->match = false;
             return info;
         }
     }
