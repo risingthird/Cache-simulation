@@ -211,14 +211,14 @@ int writeDoubleWord(cache_t* cache, uint32_t address, uint64_t data) {
         return 0;
     }
     else{
-        data1 = (uint8_t)(data>>56);
-        data2 = (uint8_t)((data<<8)>>56);
-        data3 = (uint8_t)((data<<16)>>56);
-        data4 = (uint8_t)((data<<24)>>56);
-        data5 = (uint8_t)((data<<32)>>56);
-        data6 = (uint8_t)((data<<40)>>56);
-        data7 = (uint8_t)((data<<48)>>56);
-        data8 = (uint8_t)(data&255);
+        uint8_t data1 = (uint8_t)(data>>56);
+        uint8_t data2 = (uint8_t)((data<<8)>>56);
+        uint8_t data3 = (uint8_t)((data<<16)>>56);
+        uint8_t data4 = (uint8_t)((data<<24)>>56);
+        uint8_t data5 = (uint8_t)((data<<32)>>56);
+        uint8_t data6 = (uint8_t)((data<<40)>>56);
+        uint8_t data7 = (uint8_t)((data<<48)>>56);
+        uint8_t data8 = (uint8_t)(data&255);
         writeByte(cache,address,data1);
         writeByte(cache,address+1,data2);
         writeByte(cache,address+2,data3);
