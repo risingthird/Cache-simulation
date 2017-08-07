@@ -1388,12 +1388,19 @@ void test_Write() {
 	CU_ASSERT_EQUAL(getDirty(cache, 7), 1);
 
 
+    block = fetchBlock(cache, 7);
+    for (int i = 0; i < 16; i++) {
+        printf("origin block: %u, input: %u\n",block[i], input4[i] );
+    }
+    free(block);
 
-	//Verify that writes that don't succeed don't write to the cache
+	
+    //Verify that writes that don't succeed don't write to the cache
 	CU_ASSERT_EQUAL(writeHalfWord(cache, 0x61c77377, 0x4545), -1);
 	block = fetchBlock(cache, 7);
 	for (int i = 0; i < 16; i++) {
 		CU_ASSERT_EQUAL(block[i], input4[i]);
+        printf("origin block: %u, input: %u\n",block[i], input4[i] );
 	}
 	free(block);
 
@@ -1414,7 +1421,7 @@ void test_Write() {
 	CU_ASSERT_EQUAL(writeByte(cache, 0x61b11131, 0x45), -1);
 	block = fetchBlock(cache, 3);
 	for (int i = 0; i < 16; i++) {
-        printf("block: %u, input: %u\n",block[i], input2[i] );
+        //printf("block: %u, input: %u\n",block[i], input2[i] );
 		CU_ASSERT_EQUAL(block[i], input2[i]);
 	}
 	free(block);
