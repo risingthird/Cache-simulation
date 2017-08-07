@@ -110,6 +110,7 @@ byteInfo_t readByte(cache_t* cache, uint32_t address) {
     //if((address>>1)<<1 != address) retVal.success = false; // aligment error
     //uint32_t dataSize = cace->blockDataSize;
     //uint8_t* temp = readFromCache(cache,address,1);
+    retVal.success = true;
     uint32_t offset = getOffset(cache,address);
     uint8_t* temp = readFromCache(cache,address,1);
     evictionInfo_t* info = findEviction(cache,address);
