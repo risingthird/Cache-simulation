@@ -480,7 +480,7 @@ void test_Getters_and_Setters() {
 	CU_ASSERT_EQUAL(evictInfo->blockNumber, 3);
 	CU_ASSERT_EQUAL(evictInfo->match, false);
 	CU_ASSERT_EQUAL(evictInfo->LRU, 3);
-    printf("block: %u, lru: %u\n",evictInfo->blockNumber, evictInfo->LRU);
+    //printf("block: %u, lru: %u\n",evictInfo->blockNumber, evictInfo->LRU);
 	free(evictInfo);
 	evictInfo = findEviction(cache, 0x61cffff0);
 	CU_ASSERT_EQUAL(evictInfo->blockNumber, 0);
@@ -492,7 +492,7 @@ void test_Getters_and_Setters() {
 	CU_ASSERT_EQUAL(evictInfo->blockNumber, 3);
 	CU_ASSERT_EQUAL(evictInfo->match, false);
 	CU_ASSERT_EQUAL(evictInfo->LRU, 3);
-    printf("block: %u, lru: %u\n",evictInfo->blockNumber, evictInfo->LRU);
+    //printf("block: %u, lru: %u\n",evictInfo->blockNumber, evictInfo->LRU);
 	free(evictInfo);
 	deleteCache(cache);
 }
