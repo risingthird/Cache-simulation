@@ -49,7 +49,7 @@ void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t data
         uint32_t oldTag = extractTag(cache,info->blockNumber);
         //data1[offset] = data;
         
-        writeDataToCache(cache, address-offset,data1,cache->blockDataSize,oldTag, info);
+        //writeDataToCache(cache, address-offset,data1,cache->blockDataSize,oldTag, info);
         writeDataToCache(cache,address,data,dataSize,oldTag,info);
         free(info);
     }
@@ -95,13 +95,13 @@ int writeByte(cache_t* cache, uint32_t address, uint8_t data) {
 */
 int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
 	/* Your Code Here. */
-    if(!validAddresses(address,1) || (address>>1)<<1 !=address) return -1;
+    if(!validAddresses(address,2) || (address>>1)<<1 !=address) return -1;
     uint32_t blockDataSize = cache->blockDataSize;
     uint32_t offset = getOffset(cache,address);
     if(blockDataSize>2){
         uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t)*2);
         written[0] = (uint8_t)data>>8;
-        written[1] = (uint8_t)(data<<8)>>8;
+        written[1] = (uint8_t)(data &255);
         writeToCache(cache,address,written,2);
         free(written);
         return 0;
