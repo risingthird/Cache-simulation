@@ -100,7 +100,7 @@ int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
     uint32_t offset = getOffset(cache,address);
     if(blockDataSize>2){
         uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t)*2);
-        written[0] = (uint8_t)data>>8;
+        written[0] = (uint8_t)(data>>8);
         written[1] = (uint8_t)(data &255);
         writeToCache(cache,address,written,2);
         free(written);
@@ -109,8 +109,8 @@ int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
     else{
         uint8_t* written1 = (uint8_t*) malloc(sizeof(uint8_t));
         uint8_t* written2 = (uint8_t*) malloc(sizeof(uint8_t));
-        written1[0] = (uint8_t)data>>8;
-        written2[0] = (uint8_t)(data<<8)>>8;
+        written1[0] = (uint8_t)(data&65280);
+        written2[0] = (uint8_t)(data &255);
         writeToCache(cache,address,written1,1);
         writeToCache(cache,address+1,written2,1);
         free(written1);
