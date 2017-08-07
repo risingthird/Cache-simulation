@@ -98,7 +98,7 @@ int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
     if(!validAddresses(address,2) || (address>>1)<<1 !=address) return -1;
     uint32_t blockDataSize = cache->blockDataSize;
     uint32_t offset = getOffset(cache,address);
-    if(blockDataSize>2){
+    if(blockDataSize>=2){
         uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t)*2);
         written[0] = (uint8_t)(data>>8);
         written[1] = (uint8_t)(data &255);
@@ -109,7 +109,7 @@ int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
     else{
         uint8_t* written1 = (uint8_t*) malloc(sizeof(uint8_t));
         uint8_t* written2 = (uint8_t*) malloc(sizeof(uint8_t));
-        written1[0] = (uint8_t)(data&65280);
+        written1[0] = (uint8_t)(data>>8);
         written2[0] = (uint8_t)(data &255);
         writeToCache(cache,address,written1,1);
         writeToCache(cache,address+1,written2,1);
@@ -129,6 +129,37 @@ int writeHalfWord(cache_t* cache, uint32_t address, uint16_t data) {
 */
 int writeWord(cache_t* cache, uint32_t address, uint32_t data) {
 	/* Your Code Here. */
+    if(!validAddresses(address,4) || (address>>2)<<2 !=address) return -1;
+    uint32_t blockDataSize = cache->blockDataSize;
+    uint32_t offset = getOffset(cache,address);
+    if(blockDataSize>=4){
+        uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t)*4);
+        written[0] = (uint8_t)(data>>24);
+        written[1] = (uint8_t)((data<<8)>>24);
+        written[2] = (uint8_t)((data<<16)>>24);
+        written[3] = (uint8_t)(data&255);
+        writeToCache(cache,address,written,4);
+        free(written);
+        return 0;
+    }
+    else if(blockDataSize==2){
+        uint16_t data1 = (uint16_t)(data>>16);
+        uint16_t data2 = (uint16_t)((data<<16)>>16);
+        writeHalfWord(cache,address,data1);
+        writeHalfWord(cache,address+2,data2);
+        return 0;
+    }
+    else{
+        uint8_t data1 = (uint8_t)(data>>24);
+        uint8_t data2 = (uint8_t)((data<<8)>>24);
+        uint8_t data3 = (uint8_t)((data<<16)>>24);
+        uint8_t data4 = (uint8_t)(data&255);
+        writeByte(cache,address,data1);
+        writeByte(cache,address+1,data2);
+        writeByte(cache,address+2,data3);
+        writeByte(cache,address+3,data4);
+        return 0;
+    }
 	return 0;
 }
 
