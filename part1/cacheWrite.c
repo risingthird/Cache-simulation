@@ -47,12 +47,14 @@ void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t data
         evict(cache,info->blockNumber);
         uint32_t newaddress = address/(cache->blockDataSize)*(cache->blockDataSize);
         uint8_t* data1 = readFromMem(cache, newaddress);
-        uint32_t oldTag = extractTag(cache,info->blockNumber);
+        //uint32_t oldTag = extractTag(cache,info->blockNumber);
         //data1[offset] = data;
-        
+        setTag(cache, tag,info->blockNumber);
         //writeDataToCache(cache, address-offset,data1,cache->blockDataSize,oldTag, info);
-        writeDataToCache(cache,newaddress,data1,cache->blockDataSize,oldTag,info);
-        writeDataToCache(cache,address,data,dataSize,oldTag,info);
+        writeDataToCache(cache,newaddress,data1,cache->blockDataSize,tag,info);
+        setData(cache, data, info->blockNumber, dataSize, offset);
+        free(data1);
+        //writeDataToCache(cache,address,data,dataSize,tag,info);
         free(info);
     }
 }
@@ -174,6 +176,10 @@ int writeWord(cache_t* cache, uint32_t address, uint32_t data) {
 */
 int writeDoubleWord(cache_t* cache, uint32_t address, uint64_t data) {
 	/* Your Code Here. */
+    if(!validAddresses(address,8) || (address>>3)<<3 !=address) return -1;
+    uint32_t blockDataSize = cache->blockDataSize;
+    if(blockDataSize>=16){
+    }
 	return 0;
 }
 
