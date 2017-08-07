@@ -107,7 +107,7 @@ uint32_t getIndex(cache_t* cache, uint32_t address) {
     }
     //temp = temp << getTagSize(cache); // remove leading tag bits
     temp = temp >> log_2(cache->blockDataSize);
-    temp = temp &mask;
+    temp = temp & mask;
     return temp;
 }
 
