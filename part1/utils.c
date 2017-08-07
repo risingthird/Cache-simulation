@@ -102,11 +102,11 @@ uint32_t getIndex(cache_t* cache, uint32_t address) {
     uint32_t temp = address;
     uint32_t indexBits = getNumSets(cache);
     uint32_t mask = 0;
-    for(int i=0;i<indexBits-1;i++){
-        mask+=(1<<i);
-    }
-    //temp = temp << getTagSize(cache); // remove leading tag bits
-    temp = temp >> log_2(cache->blockDataSize);
+//    for(int i=0;i<indexBits-1;i++){
+//        mask+=(1<<i);
+//    }
+    temp = temp << getTagSize(cache); // remove leading tag bits
+    temp = temp >> (log_2(cache->blockDataSize)+getTagSize(cache));
     temp = temp & mask;
     return temp;
 }
