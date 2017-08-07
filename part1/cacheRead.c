@@ -54,7 +54,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
     // first we need to check the index bits;
     if(!validAddresses(address,dataSize)) return NULL;
     
-    //uint32_t tag = getTag(cache,address);
+    uint32_t tag = getTag(cache,address);
     uint32_t offset = getOffset(cache,address);
     //uint32_t indexBits = getIndex(cache, address);
     //uint32_t blockend = (indexBits+1)*(cache->n)-1;
