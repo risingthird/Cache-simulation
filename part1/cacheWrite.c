@@ -178,7 +178,56 @@ int writeDoubleWord(cache_t* cache, uint32_t address, uint64_t data) {
 	/* Your Code Here. */
     if(!validAddresses(address,8) || (address>>3)<<3 !=address) return -1;
     uint32_t blockDataSize = cache->blockDataSize;
-    if(blockDataSize>=16){
+    if(blockDataSize>=8){
+        uint8_t* written = (uint8_t*) malloc(sizeof(uint8_t)*8);
+        written[0] = (uint8_t)(data>>56);
+        written[1] = (uint8_t)((data<<8)>>56);
+        written[2] = (uint8_t)((data<<16)>>56);
+        written[3] = (uint8_t)((data<<24)>>56);
+        written[4] = (uint8_t)((data<<32)>>56);
+        written[5] = (uint8_t)((data<<40)>>56);
+        written[6] = (uint8_t)((data<<48)>>56);
+        written[7] = (uint8_t)(data&255);
+        writeToCache(cache,address,written,8);
+        free(written);
+        return 0;
+    }
+    else if(blockDataSize == 4){
+        uint32_t data1 = (uint32_t)(data>>32);
+        uint32_t data2 = (uint32_t)((data<<32)>>32);
+        writeWord(cache,address,data1);
+        writeWord(cache,address+4,data1);
+        return 0;
+    }
+    else if(blockDataSize == 2){
+        uint16_t data1 = (uint16_t)(data>>48);
+        uint16_t data2 = (uint16_t)((data<<16)>>48);
+        uint16_t data3 = (uint16_t)((data<<32)>>48);
+        uint16_t data4 = (uint16_t)((data<<48)>>48);
+        writeHalfWord(cache,address,data1);
+        writeHalfWord(cache,address+2,data2);
+        writeHalfWord(cache,address+4,data3);
+        writeHalfWord(cache,address+6,data4);
+        return 0;
+    }
+    else{
+        data1 = (uint8_t)(data>>56);
+        data2 = (uint8_t)((data<<8)>>56);
+        data3 = (uint8_t)((data<<16)>>56);
+        data4 = (uint8_t)((data<<24)>>56);
+        data5 = (uint8_t)((data<<32)>>56);
+        data6 = (uint8_t)((data<<40)>>56);
+        data7 = (uint8_t)((data<<48)>>56);
+        data8 = (uint8_t)(data&255);
+        writeByte(cache,address,data1);
+        writeByte(cache,address+1,data2);
+        writeByte(cache,address+2,data3);
+        writeByte(cache,address+3,data4);
+        writeByte(cache,address+4,data5);
+        writeByte(cache,address+5,data6);
+        writeByte(cache,address+6,data7);
+        writeByte(cache,address+7,data8);
+        return 0;
     }
 	return 0;
 }
