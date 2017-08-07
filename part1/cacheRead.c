@@ -89,6 +89,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
         setTag(cache, tag,info->blockNumber);
         writeDataToCache(cache, address-offset,data,cache->blockDataSize,tag, info);
         data = getData(cache,offset,info->blockNumber,dataSize);
+        setDirty(cache,info->blockNumber,0);
         free(info);
         return data;
     }
