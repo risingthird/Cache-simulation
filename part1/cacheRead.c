@@ -147,7 +147,7 @@ halfWordInfo_t readHalfWord(cache_t* cache, uint32_t address) {
     }
     retVal.success = true;
     uint32_t offset = getOffset(cache,address);
-    if(cache->blockDataSize>2){
+    if(cache->blockDataSize>=2){
         uint8_t* temp = readFromCache(cache,address,2);
         evictionInfo_t* info = findEviction(cache,address);
         //if(info->match){
@@ -196,7 +196,7 @@ wordInfo_t readWord(cache_t* cache, uint32_t address) {
     retVal.success = true;
     uint32_t offset = getOffset(cache,address);
     uint32_t blockDataSize = cache->blockDataSize;
-    if(blockDataSize>4){
+    if(blockDataSize>=4){
         uint8_t* temp = readFromCache(cache,address,4);
         evictionInfo_t* info = findEviction(cache,address);
         //if(info->match){
