@@ -53,6 +53,8 @@ cache_t* createCache(uint32_t n, uint32_t blockDataSize, uint32_t totalDataSize,
     if(!newCache->physicalMemoryName) {allocationFailed();return NULL;}
     strcpy(newCache->physicalMemoryName, physicalMemoryName);
     newCache->n = n;
+    newCache->access = 0;
+    newCache->hit = 0;
     newCache->blockDataSize = blockDataSize;
     newCache->totalDataSize = totalDataSize;
     uint64_t cachebits = cacheSizeBits(newCache);
