@@ -260,11 +260,11 @@ void updateState(cache_t* cache, uint32_t address, enum state otherState) {
 		
 	}
 	if (otherState == OWNED){
-		if (prevState == MODIFIED){ 
-			setValid(cache,blockNumber,1);
-			setDirty(cache,blockNumber,1); 
-			setShared(cache,blockNumber,1);
-		}
+		// if (prevState == MODIFIED){ 
+		// 	setValid(cache,blockNumber,1);
+		// 	setDirty(cache,blockNumber,1); 
+		// 	setShared(cache,blockNumber,1);
+		// }
 	}
 	long oldLRU = getLRU(cache,blockNumber);
 	uint32_t tag = getTag(cache,address);
