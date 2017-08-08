@@ -203,18 +203,22 @@ void setState(cache_t* cache, uint32_t blockNumber, enum state newState) {
 		setValid(cache,blockNumber,0);
 	}
 	if (newState == EXCLUSIVE){
+		setValid(cache,blockNumber,1);
 		setDirty(cache,blockNumber,0); 
 		setShared(cache,blockNumber,0);
 	}
 	if (newState == SHARED){
+		setValid(cache,blockNumber,1);
 		setDirty(cache,blockNumber,0); 
 		setShared(cache,blockNumber,1);
 	}
 	if (newState == MODIFIED){
+		setValid(cache,blockNumber,1);
 		setDirty(cache,blockNumber,1); 
 		setShared(cache,blockNumber,0);
 	}
 	if (newState == OWNED){
+		setValid(cache,blockNumber,1);
 		setDirty(cache,blockNumber,1); 
 		setShared(cache,blockNumber,1);
 	}
