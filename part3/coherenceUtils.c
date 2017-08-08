@@ -237,9 +237,14 @@ void updateState(cache_t* cache, uint32_t address, enum state otherState) {
 	uint32_t blockNumber = next->blockNumber;
 	enum state prevState = determineState(cache,address);
 	if (otherState == INVALID){
-		if (prevState == EXCLUSIVE || prevState == SHARED || prevState == OWNED){ //then modified
+		if (prevState == EXCLUSIVE || prevState == OWNED){ //then modified
 			setValid(cache,blockNumber,1);
 			setDirty(cache,blockNumber,1); 
+			setShared(cache,blockNumber,0);
+		}
+		if (prevState == SHARED){ //then modified
+			setValid(cache,blockNumber,1);
+			setDirty(cache,blockNumber,0); 
 			setShared(cache,blockNumber,0);
 		}
 	}
@@ -254,10 +259,11 @@ void updateState(cache_t* cache, uint32_t address, enum state otherState) {
 			setDirty(cache,blockNumber,0); 
 			setShared(cache,blockNumber,1);
 		}
+
 	}
 	if (otherState == MODIFIED){
 		setValid(cache,blockNumber,0);
-		
+
 	}
 	if (otherState == OWNED){
 		// if (prevState == MODIFIED){ 
