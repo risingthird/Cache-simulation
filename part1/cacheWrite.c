@@ -33,6 +33,7 @@ void evict(cache_t* cache, uint32_t blockNumber) {
 */
 void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t dataSize) {
     /* Your Code Here. */
+    reportAccess(cache);
     if(!validAddresses(address,dataSize)) return;
     uint32_t tag = getTag(cache,address);
     uint32_t offset = getOffset(cache,address);
@@ -40,6 +41,7 @@ void writeToCache(cache_t* cache, uint32_t address, uint8_t* data, uint32_t data
     evictionInfo_t* info = findEviction(cache,address);
     uint32_t oldTag = extractTag(cache,info->blockNumber);
     if(info->match){
+        reportHit(cache);
         writeDataToCache(cache,address,data,dataSize,tag,info);
         free(info);
     }

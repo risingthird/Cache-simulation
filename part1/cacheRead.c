@@ -52,6 +52,7 @@ uint8_t* fetchBlock(cache_t* cache, uint32_t blockNumber) {
 uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
 	/* Your Code Here. */
     // first we need to check the index bits;
+    reportAccess(cache);
     if(!validAddresses(address,dataSize)) return NULL;
     
     uint32_t tag = getTag(cache,address);
@@ -69,7 +70,7 @@ uint8_t* readFromCache(cache_t* cache, uint32_t address, uint32_t dataSize) {
     }*/
     evictionInfo_t* info = findEviction(cache,address);
     // first check whether target is already in cache
-    reportAccess(cache);
+    
     if(info->match){
         reportHit(cache);
         uint8_t* data = getData(cache,offset,info->blockNumber,dataSize);
