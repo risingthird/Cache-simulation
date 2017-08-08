@@ -194,6 +194,8 @@ void setTag(cache_t* cache, uint32_t tag, uint32_t blockNumber) {
 */
 void clearCache(cache_t* cache) {
 	/* Your Code Here. */
+    cache->access = 0;
+    cache->hit = 0;
     int blockNumber = getNumSets(cache) << log_2(cache->n);
     for(int i =0;i<blockNumber;i++){
         setValid(cache, i,0);
