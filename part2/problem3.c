@@ -11,7 +11,7 @@
 cache_t* params3() {
 	uint8_t n = 4;
 	uint32_t blockDataSize = 64;
-	uint32_t totalDataSize 512;
+	uint32_t totalDataSize = 512;
 	char* memFile;
 	memFile = "testFiles/physicalMemory1.txt";
 	/* Your Code Here. */
