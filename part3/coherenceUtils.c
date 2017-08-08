@@ -189,7 +189,7 @@ enum state determineState(cache_t* cache, uint32_t address) {
 	if (dirty==0 && shared==0) {return EXCLUSIVE;}
 	if (dirty==0 && shared==1) {return SHARED;}
 	if (dirty==1 && shared==0) {return MODIFIED;}
-	if (dirty==1 && shared==0) {return OWNED;}
+	if (dirty==1 && shared==1) {return OWNED;}
 	/* Your Code Here. */
 	return INVALID;
 }
