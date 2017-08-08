@@ -181,9 +181,6 @@ cache_t* getCacheFromID(cacheSystem_t* cacheSystem, uint8_t ID) {
 	containing that address in the cache.
 */
 enum state determineState(cache_t* cache, uint32_t address) {
-	if (!cache.contains(address)){
-		return INVALID;
-	}
 	uint32_t index = getIndex(cache, address);
 	uint8_t valid = getValid(cache, index);
 	uint8_t dirty = getDirty(cache, index);
