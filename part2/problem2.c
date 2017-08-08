@@ -12,7 +12,7 @@
 	passed in as parameters.
 */
 cache_t* params2() {
-	uint32_t n;
+	uint32_t n = 4;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	char* fileName;
@@ -20,6 +20,6 @@ cache_t* params2() {
 	blockDataSize = 8;
 	totalDataSize = 32;
 	/* Your Code Here. */
-	return createCache(4,blockDataSize,totalDataSize,memFile);;
+	return createCache(n,blockDataSize,totalDataSize,fileName);;
 }
 

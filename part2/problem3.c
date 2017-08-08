@@ -15,5 +15,5 @@ cache_t* params3() {
 	char* memFile;
 	memFile = "testFiles/physicalMemory1.txt";
 	/* Your Code Here. */
-	return createCache(4,blockDataSize,totalDataSize,memFile);;
+	return createCache(n,blockDataSize,totalDataSize,memFile);;
 }
