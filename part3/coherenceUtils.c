@@ -243,13 +243,6 @@ void updateState(cache_t* cache, uint32_t address, enum state otherState) {
 			setShared(cache,blockNumber,0);
 		}
 	}
-	if (otherState == OWNED || otherState == SHARED){
-		if (prevState == EXCLUSIVE || prevState == SHARED || prevState == OWNED){ //then modified
-			setValid(cache,blockNumber,1);
-			setDirty(cache,blockNumber,1); 
-			setShared(cache,blockNumber,0);
-		}
-	}
 	long oldLRU = getLRU(cache,blockNumber);
 	uint32_t tag = getTag(cache,address);
 	uint32_t idx = getIndex(cache,address);
