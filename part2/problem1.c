@@ -16,7 +16,6 @@ cache_t* params1() {
 	fileName = "testFiles/physicalMemory3.txt";
 	blockDataSize = 2048;
 	totalDataSize = 8192;
-	cache_t cache = createCache(n,blockDataSize,totalDataSize,fileName);
 	/* Your Code Here. */
-	return *cache;
+	return createCache(n,blockDataSize,totalDataSize,fileName);;
 }
