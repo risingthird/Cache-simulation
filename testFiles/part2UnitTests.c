@@ -58,6 +58,7 @@ void test_BasicHitRate() {
 	CU_ASSERT_EQUAL(findHitRate(cache), 1.0/9.0);
 	CU_ASSERT_EQUAL(cache->access, 9);
 	CU_ASSERT_EQUAL(cache->hit, 1);
+    printf("access: %u, hit: %u\n",cache->access,cache->hit);
 	clearCache(cache);
 
 	readWord(cache, 0x61c00004);
