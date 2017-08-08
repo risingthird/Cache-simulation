@@ -184,10 +184,10 @@ enum state determineState(cache_t* cache, uint32_t address) {
 	if (!cache.contains(address)){
 		return INVALID;
 	}
-	unit32_t index = getIndex(address);
-	unit8_t valid = getValid(cache, index);
-	unit8_t dirty = getDirty(cache, index);
-	unit8_t shared = getShared(cache, index);
+	uint32_t index = getIndex(cache, address);
+	uint8_t valid = getValid(cache, index);
+	uint8_t dirty = getDirty(cache, index);
+	uint8_t shared = getShared(cache, index);
 	if (valid==0) {return INVALID;}
 	if (dirty==0 && shared==0) {return EXCLUSIVE;}
 	if (dirty==0 && shared==1) {return SHARED;}
@@ -202,9 +202,9 @@ enum state determineState(cache_t* cache, uint32_t address) {
 	and updates the state of that block to be the desired new state.
 */
 void setState(cache_t* cache, uint32_t blockNumber, enum state newState) {
-	unit8_t valid = 0;
-	unit8_t dirty = 0;
-	unit8_t shared = 0;
+	uint8_t valid = 0;
+	uint8_t dirty = 0;
+	uint8_t shared = 0;
 	if (newState == INVALID){
 		setValid(cache,blockNumber,0);
 	}
@@ -236,7 +236,7 @@ void setState(cache_t* cache, uint32_t blockNumber, enum state newState) {
 */
 void updateState(cache_t* cache, uint32_t address, enum state otherState) {
 	evictionInfo_t* next = findEviction(cache,address);
-	unit32_t blocknumber = next->blockNumber;
+	uint32_t blocknumber = next->blockNumber;
 	enum state prevState = determineState(cache,address);
 	if (otherState == INVALID){
 		if (prevState == EXCLUSIVE || prevState == SHARED || prevState == OWNED){ //then modified
