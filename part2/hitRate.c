@@ -9,13 +9,15 @@
 */
 double findHitRate(cache_t* cache) {
 	/* Your Code Here. */
-	return 0.0;
+	double hitrate = cache->hit/cache->access;
+	return hitrate;
 }
 
 /*
 	Function used to update the cache indicating there has been a cache access.
 */
 void reportAccess(cache_t* cache) {
+	cache->access++;
 	/* Your Code Here. */
 }
 
@@ -23,5 +25,6 @@ void reportAccess(cache_t* cache) {
 	Function used to update the cache indicating there has been a cache hit.
 */
 void reportHit(cache_t* cache) {
+	cache->hit++;
 	/* Your Code Here. */
 }

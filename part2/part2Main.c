@@ -7,7 +7,7 @@
 #include "hitRate.h"
 
 int main() {
-	uint32_t n;
+	uint8_t n;
 	uint32_t blockDataSize;
 	uint32_t totalDataSize;
 	uint32_t address;

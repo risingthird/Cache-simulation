@@ -181,6 +181,18 @@ cache_t* getCacheFromID(cacheSystem_t* cacheSystem, uint8_t ID) {
 	containing that address in the cache.
 */
 enum state determineState(cache_t* cache, uint32_t address) {
+	if (!cache.contains(address)){
+		return INVALID;
+	}
+	unit32_t index = getIndex(address);
+	unit8_t valid = getValid(cache, index);
+	unit8_t dirty = getDirty(cache, index);
+	unit8_t shared = getShared(cache, index);
+	if (valid==0) {return INVALID;}
+	if (dirty==0 && shared==0) {return EXCLUSIVE;}
+	if (dirty==0 && shared==1) {return SHARED;}
+	if (dirty==1 && shared==0) {return MODIFIED;}
+	if (dirty==1 && shared==0) {return OWNED;}
 	/* Your Code Here. */
 	return INVALID;
 }
@@ -190,6 +202,28 @@ enum state determineState(cache_t* cache, uint32_t address) {
 	and updates the state of that block to be the desired new state.
 */
 void setState(cache_t* cache, uint32_t blockNumber, enum state newState) {
+	unit8_t valid = 0;
+	unit8_t dirty = 0;
+	unit8_t shared = 0;
+	if (newState == INVALID){
+		setValid(cache,blockNumber,0);
+	}
+	if (newState == EXCLUSIVE){
+		setDirty(cache,blockNumber,0); 
+		setShared(cache,blockNumber,0);
+	}
+	if (newState == SHARED){
+		setDirty(cache,blockNumber,0); 
+		setShared(cache,blockNumber,1);
+	}
+	if (newState == MODIFIED){
+		setDirty(cache,blockNumber,1); 
+		setShared(cache,blockNumber,0);
+	}
+	if (newState == OWNED){
+		setDirty(cache,blockNumber,1); 
+		setShared(cache,blockNumber,1);
+	}
 	/* Your Code Here. */
 }
 
@@ -201,6 +235,27 @@ void setState(cache_t* cache, uint32_t blockNumber, enum state newState) {
 	a cache.
 */
 void updateState(cache_t* cache, uint32_t address, enum state otherState) {
+	evictionInfo_t* next = findEviction(cache,address);
+	unit32_t blocknumber = next->blockNumber;
+	enum state prevState = determineState(cache,address);
+	if (otherState == INVALID){
+		if (prevState == EXCLUSIVE || prevState == SHARED || prevState == OWNED){ //then modified
+			setValid(cache,blockNumber,1);
+			setDirty(cache,blockNumber,1); 
+			setShared(cache,blockNumber,0);
+		}
+	}
+	if (otherState == OWNED || otherState == SHARED){
+		if (prevState == EXCLUSIVE || prevState == SHARED || prevState == OWNED){ //then modified
+			setValid(cache,blockNumber,1);
+			setDirty(cache,blockNumber,1); 
+			setShared(cache,blockNumber,0);
+		}
+	}
+	long oldLRU = getLRU(cache,blocknumber);
+	uint32_t tag = getTag(cache,address);
+	uint32_t idx = getIndex(cache,address);
+	decrementLRU(cache, tag, idx, oldLRU);
 	/* Your Code Here. */
 }
 

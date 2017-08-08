@@ -17,7 +17,9 @@ cache_t* params2() {
 	uint32_t totalDataSize;
 	char* fileName;
 	fileName = "testFiles/physicalMemory4.txt";
+	blockDataSize = 8;
+	totalDataSize = 32;
 	/* Your Code Here. */
-	return NULL;
+	return createCache(4,blockDataSize,totalDataSize,memFile);;
 }
 

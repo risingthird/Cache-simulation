@@ -9,11 +9,11 @@
 	Function used to return the result of the third cache parameters question.
 */
 cache_t* params3() {
-	uint32_t n;
-	uint32_t blockDataSize;
-	uint32_t totalDataSize;
+	uint8_t n = 4;
+	uint32_t blockDataSize = 64;
+	uint32_t totalDataSize 512;
 	char* memFile;
 	memFile = "testFiles/physicalMemory1.txt";
 	/* Your Code Here. */
-	return NULL;
+	return createCache(4,blockDataSize,totalDataSize,memFile);;
 }
