@@ -264,7 +264,7 @@ doubleWordInfo_t readDoubleWord(cache_t* cache, uint32_t address) {
     retVal.success = true;
     uint32_t offset = getOffset(cache,address);
     uint32_t blockDataSize = cache->blockDataSize;
-    if(blockDataSize>8){
+    if(blockDataSize>=8){
         uint8_t* temp = readFromCache(cache,address,8);
         evictionInfo_t* info = findEviction(cache,address);
        // if(info->match){
