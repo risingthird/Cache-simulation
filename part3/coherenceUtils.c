@@ -257,7 +257,7 @@ void updateState(cache_t* cache, uint32_t address, enum state otherState) {
 	}
 	if (otherState == MODIFIED){
 		setValid(cache,blockNumber,0);
-		if (prevState == MODIFIED){
+		if (prevState == OWNED){
 			setValid(cache,blockNumber,1);
 			setDirty(cache,blockNumber,1); 
 			setShared(cache,blockNumber,0);
