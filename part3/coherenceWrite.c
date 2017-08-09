@@ -51,7 +51,7 @@ void cacheSystemWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, 
         uint32_t tag = extractTag(dstCache,temp);
         uint32_t blockDataSize = cacheSystem->blockDataSize;
         if(1){
-            removeFromSnooper(cacheSystem->snooper,oldAddress,ID,blockDataSize);
+            removeFromSnooper(cacheSystem->snooper,oldAddress,blockDataSize);
         }
         if(!getShared(dstCache, temp)){
             

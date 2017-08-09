@@ -74,14 +74,14 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 			otherCacheInfo = findEviction(otherCache,address);
 			offset = getOffset(otherCache,address);
 			retVal = getData(otherCache,offset,otherCacheInfo->blockNumber,size);
-		    uint8_t *temp = fetchBlock(otherCache,otherCache->blockNumber);
+		    uint8_t *temp = fetchBlock(otherCache,otherCacheInfo->blockNumber);
 		    writeWholeBlock(dstCache,address,evictionBlockNumber,temp);
 		    writeDataToCache(dstCache,address,retVal,size,getTag(dstCache,address),dstCacheInfo);
 		    setState(dstCache,dstCacheInfo->blockNumber, SHARED);
 		    counter = 0;
 			while (dstCache == NULL && counter < cacheSystem->size) { //Selects destination cache pointer from array of caches pointers
 				if (caches[counter]->ID == ID) {
-					updateState(caches[i]->cache,address,SHARED);
+					updateState(caches[counter]->cache,address,SHARED);
 				}
 				counter++;
 			}
