@@ -68,7 +68,7 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		/*Your Code Here*/
 		uint8_t newID = returnFirstCacheID(cacheSystem->snooper, address, cacheSystem->blockDataSize);
         if(newID != -1)
-            otherCacheContains = 1;
+            otherCacheContains = true;
 		if (!otherCacheContains){
 			/*Check Main memory?*/
 			/*Your Code Here*/
@@ -84,15 +84,20 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		    writeWholeBlock(dstCache,address,evictionBlockNumber,temp);
 		    writeDataToCache(dstCache,address,retVal,size,tempTag2,dstCacheInfo);
 		    setState(dstCache,dstCacheInfo->blockNumber, SHARED);
-		    counter = 0;
-			while (dstCache == NULL && counter < cacheSystem->size) { //Selects destination cache pointer from array of caches pointers
-				if (caches[counter]->ID != ID) {
-					updateState(caches[counter]->cache,address,SHARED);
-				}
-				counter++;
-			}
-			free(temp);
-			free(otherCacheInfo);
+            free(temp);
+		    //counter = 0;
+//			while (dstCache == NULL && counter < cacheSystem->size) { //Selects destination cache pointer from array of caches pointers
+//				if (caches[counter]->ID != ID) {
+//					updateState(caches[counter]->cache,address,SHARED);
+//				}
+//				counter++;
+//			}
+            for(uint8_t i =0;i<cacheSystem->size;i++){
+                if (caches[counter]->ID != ID) {
+                    updateState(caches[counter]->cache,address,SHARED);
+            }
+			
+			//free(otherCacheInfo);
 		}	
 	}
 	addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);

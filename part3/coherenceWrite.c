@@ -90,7 +90,7 @@ void cacheSystemWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, 
         }
 
 	}
-    for(int i =0;i<cacheSystem->size;i++){
+    for(uint8_t i =0;i<cacheSystem->size;i++){
         if(caches[i]->ID != ID){
             updateState(caches[i]->cache,address,MODIFIED);
         }
