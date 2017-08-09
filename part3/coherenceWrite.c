@@ -115,6 +115,7 @@ void cacheSystemWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, 
 */
 int cacheSystemByteWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, uint8_t data) {
 	/* Error Checking??*/
+    if(!validAddresses(address,1)) return -1;
 	uint8_t array[1];
 	array[0] = data;
 	cacheSystemWrite(cacheSystem, address, ID, 1, array);
