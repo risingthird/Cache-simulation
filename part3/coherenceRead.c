@@ -86,7 +86,7 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		    setState(dstCache,dstCacheInfo->blockNumber, SHARED);
             free(temp);
             for(uint8_t i =0;i<cacheSystem->size;i++){
-                if (caches[counter]->ID != ID) 
+                if (caches[counter]->ID != ID)
                     updateState(caches[counter]->cache,address,SHARED);
             }
 			
@@ -108,6 +108,7 @@ byteInfo_t cacheSystemByteRead(cacheSystem_t* cacheSystem, uint32_t address, uin
 	byteInfo_t retVal;
 	uint8_t* data;
 	/* Error Checking??*/
+    if(!validAddresses(address,1)) {retVal.success=false;return retVal;}
 	retVal.success = true;
 	data = cacheSystemRead(cacheSystem, address, ID, 1);
 	if (data == NULL) {
@@ -129,6 +130,7 @@ halfWordInfo_t cacheSystemHalfWordRead(cacheSystem_t* cacheSystem, uint32_t addr
 	halfWordInfo_t retVal;
 	uint8_t* data;
 	/* Error Checking??*/
+    if(!validAddresses(address,2) || (address>>1)<<1 !=address) {retVal.success=false;return retVal;}
 	retVal.success = true;
 	if (cacheSystem->blockDataSize < 2) {
 		temp = cacheSystemByteRead(cacheSystem, address, ID);
@@ -159,6 +161,7 @@ wordInfo_t cacheSystemWordRead(cacheSystem_t* cacheSystem, uint32_t address, uin
 	wordInfo_t retVal;
 	uint8_t* data;
 	/* Error Checking??*/
+    if(!validAddresses(address,4) || (address>>2)<<2 !=address) {retVal.success=false;return retVal;}
 	retVal.success = true;
 	if (cacheSystem->blockDataSize < 4) {
 		temp = cacheSystemHalfWordRead(cacheSystem, address, ID);
@@ -190,6 +193,7 @@ doubleWordInfo_t cacheSystemDoubleWordRead(cacheSystem_t* cacheSystem, uint32_t 
 	doubleWordInfo_t retVal;
 	uint8_t* data;
 	/* Error Checking??*/
+    if(!validAddresses(address,8) || (address>>3)<<3 !=address) {retVal.success=false;return retVal;}
 	retVal.success = true;
 	if (cacheSystem->blockDataSize < 8) {
 		temp = cacheSystemWordRead(cacheSystem, address, ID);
