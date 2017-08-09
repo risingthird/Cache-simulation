@@ -39,40 +39,71 @@ void cacheSystemWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, 
 	if (dstCacheInfo->match) {
 		/*What do you do if it is in the cache?*/
 		/*Your Code Here*/
-		
-
-
-
+        writeToCache(dstCache,address,data,size);
+        setState(dstCache,evictionBlockNumber,MODIFIED);
+        addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
 	} else {
 		uint32_t oldAddress = extractAddress(dstCache, extractTag(dstCache, evictionBlockNumber), evictionBlockNumber, 0);
 		/*How do you need to update the snooper?*/
 		/*How do you need to update states for what is getting evicted (don't worry about evicting this will be handled at a later step when you place data in the cache)?*/
 		/*Your Code Here*/
-		
-
-
-
-
+        uint32_t temp = evictionBlockNumber;
+        uint32_t tag = extractTag(dstCache,temp);
+        uint32_t blockDataSize = cacheSystem->blockDataSize;
+        if(1){
+            removeFromSnooper(cacheSystem->snooper,oldAddress,ID,blockDataSize);
+        }
+        if(!getShared(dstCache, temp)){
+            
+        }
+        else{
+            int evictID = returnIDIf1(cacheSystem->snooper,oldAddress,ID,blockDataSize);
+            if(evictID+1 != 0){
+                updateState(getCacheFromID(cacheSystem,evictID),oldAddress,INVALID);
+            }
+        }
+        
 		int val = returnFirstCacheID(cacheSystem->snooper, address, cacheSystem->blockDataSize);
 		/*Check other caches???*/
 		/*Your Code Here*/
-		
-
-
-
-
+		if(val!=-1)
+            otherCacheContains = 1;
+        
 		if (!otherCacheContains) {
 			/*Check Main memory?*/
 			/*Your Code Here*/
+            writeToCache(dstCache,address,data,size);
+            setState(dstCache,evictionBlockNumber,MODIFIED);
+            addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
 		}
+        else{
+            setState(dstCache,evictionBlockNumber,MODIFIED);
+            addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
+            cache_t* other = getCacheFromID(cacheSystem,val);
+            otherCacheInfo = findEviction(other,address);
+            
+            uint8_t* block = fetchBlock(other,otherCacheInfo->blockNumber);
+            writeWholeBlock(dstCache,address,temp,block);
+            
+            writeDataToCache(dstCache,address,data,size,tagVal,dstCacheInfo);
+            free(block);
+        }
 
 	}
-	addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
-	if (otherCacheContains) {
+    for(int i =0;i<cacheSystem->size;i++){
+        if(caches[i]->ID != ID){
+            updateState(caches[i]->cache,address,MODIFIED);
+        }
+    }
+    //setState(dstCache,evictionBlockNumber,MODIFIED);
+	//addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
+	//if (otherCacheContains) {
 		/*What states need to be updated?*/
 		/*Does anything else need to be editted?*/
 		/*Your Code Here*/
-	}
+//        cache_t* other = getCacheFromID(cacheSystem,val);
+//        otherCacheInfo = findEviction(other,address);
+//	}
 	free(dstCacheInfo);
 }
 
@@ -98,6 +129,7 @@ int cacheSystemByteWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 */
 int cacheSystemHalfWordWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, uint16_t data) {
 	/* Error Checking??*/
+    if(!validAddresses(address,2) || (address>>1)<<1 !=address) return -1;
 	if (cacheSystem->blockDataSize < 2) {
 		cacheSystemByteWrite(cacheSystem, address, ID, (uint8_t) (data >> 8));
 		cacheSystemByteWrite(cacheSystem, address + 1, ID, (uint8_t) (data & UINT8_MAX));
@@ -117,6 +149,7 @@ int cacheSystemHalfWordWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8
 */
 int cacheSystemWordWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, uint32_t data) {
 	/* Error Checking??*/
+    if(!validAddresses(address,4) || (address>>2)<<2 !=address) return -1;
 	if (cacheSystem->blockDataSize < 4) {
 		cacheSystemByteWrite(cacheSystem, address, ID, (uint8_t) (data >> 16));
 		cacheSystemByteWrite(cacheSystem, address + 2, ID, (uint8_t) (data & UINT16_MAX));
@@ -138,6 +171,7 @@ int cacheSystemWordWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 */
 int cacheSystemDoubleWordWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, uint64_t data) {
 	/* Error Checking??*/
+    if(!validAddresses(address,8) || (address>>3)<<3 !=address) return -1;
 	if (cacheSystem->blockDataSize < 8) {
 		cacheSystemByteWrite(cacheSystem, address, ID, (uint8_t) (data >> 32));
 		cacheSystemByteWrite(cacheSystem, address + 4, ID, (uint8_t) (data & UINT32_MAX));
