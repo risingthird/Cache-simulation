@@ -51,13 +51,13 @@ void cacheSystemWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, 
         uint32_t tag = extractTag(dstCache,temp);
         uint32_t blockDataSize = cacheSystem->blockDataSize;
         if(1){
-            removeFromSnooper(cacheSystem->snooper,oldAddress,blockDataSize);
+            removeFromSnooper(cacheSystem->snooper,oldAddress,ID,blockDataSize);
         }
         if(!getShared(dstCache, temp)){
             
         }
         else{
-            int evictID = returnIDIf1(cacheSystem->snooper,oldAddress,ID,blockDataSize);
+            int evictID = returnIDIf1(cacheSystem->snooper,oldAddress,blockDataSize);
             if(evictID+1 != 0){
                 updateState(getCacheFromID(cacheSystem,evictID),oldAddress,INVALID);
             }
