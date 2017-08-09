@@ -59,7 +59,7 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
     
         }else{
             int newID = returnIDIf1(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
-            if (newID+1 != 0){
+            if (newID != -1){
                 cache_t* other = getCacheFromID(cacheSystem,newID);
                 updateState(other,oldAddress,INVALID);
             }
