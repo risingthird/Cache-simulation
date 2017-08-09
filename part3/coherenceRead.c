@@ -21,6 +21,7 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 	uint8_t* retVal;
 	uint8_t offset;
 	uint8_t* transferData;
+	cache_t* otherCache;
 	evictionInfo_t* dstCacheInfo;
 	evictionInfo_t* otherCacheInfo;
 	uint32_t evictionBlockNumber;
@@ -35,58 +36,61 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		}
 		counter++;
 	}
+	dstCache = getCacheFromID(cacheSystem,ID);
 	dstCacheInfo = findEviction(dstCache, address); //Finds block to evict and potential match
 	evictionBlockNumber = dstCacheInfo->blockNumber;
-	// if (dstCacheInfo->match) {
-	// 	/*What do you do if it is in the cache?*/
-	// 	/*Your Code Here*/
-	// 	retVal = getData(dstCache,address,evictionBlockNumber,size);
- //        free(dstCacheInfo);
- //        return retVal;
-	// } else {
-	// 	uint32_t oldAddress = extractAddress(dstCache, extractTag(dstCache, evictionBlockNumber), evictionBlockNumber, 0);
-	// 	/*How do you need to update the snooper?*/
-	// 	/*How do you need to update states for what is getting evicted (don't worry about evicting this will be handled at a later step when you place data in the cache)?*/
-	// 	/*Your Code Here*/
+	if (dstCacheInfo->match) {
+		/*What do you do if it is in the cache?*/
+		/*Your Code Here*/
+		retVal = readFromCache(dstCache,address,size);
+		addToSnooper(cacheSystem->snooper,address,ID,cacheSystem->blockDataSize);
+        free(dstCacheInfo);
+        return retVal;
+	} else {
+		uint32_t oldAddress = extractAddress(dstCache, extractTag(dstCache, evictionBlockNumber), evictionBlockNumber, 0);
+		/*How do you need to update the snooper?*/
+		/*How do you need to update states for what is getting evicted (don't worry about evicting this will be handled at a later step when you place data in the cache)?*/
+		/*Your Code Here*/
+		removeFromSnooper(cacheSystem->snooper,oldAddress,ID,cacheSystem->blockDataSize);
+		int shared = getShared(dstCache,evictionBlockNumber);
+		if (shared == 1){
+			uint8_t newID = returnFirstCacheID(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
+			if (newID != -1){
+				otherCache = getCacheFromID(cacheSystem,newID);
+				updateState(otherCache,oldAddress,INVALID);
+			}
+		}
 		
-	// 	offset = getOffset(dstCache, address-offest);
-
-
-
-	// 	int val = returnFirstCacheID(cacheSystem->snooper, address, cacheSystem->blockDataSize);
-	// 	/*Check other caches???*/
-	// 	/*Your Code Here*/
-	// 	otherCacheInfo = findEviction(dstCache, address); 
-	// 	if (dstCacheInfo->match) {
-	// 		otherCacheContains = true;
-	// 		retVal = getData(dstCache,address,evictionBlockNumber,size); //readhit
-
-	// 	}
-
-
-   
-	// 	if (!otherCacheContains) {
-	// 		/*Check Main memory?*/
-	// 		/*Your Code Here*/
-	// 		retVal = readFromMem(dstCache,address);
-	// 		setTag(dstCache, getTag(cache,address) ,dstCacheInfo->blockNumber);
- //        	writeDataToCache(dstCache, address-offset, data,dstCache->blockDataSize, getTag(cache,address), dstCacheInfo);
- //        	data = getData(dstCache,offset,dstCacheInfo->blockNumber,dataSize);
- //        	setDirty(dstCache,dstCacheInfo->blockNumber,0);
- //        	free(dstCacheInfo);
-	// 	}
-
-	// }
-	// addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
-	// if (otherCacheContains) {
-	// 	/*What states need to be updated?*/
-	// 	/*Your Code Here*/
-	// 	updateState(dstCache, address, )
-
-
-
-	// }
-	// free(dstCacheInfo);
+		/*Check other caches???*/
+		/*Your Code Here*/
+		uint8_t newID = returnFirstCacheID(cacheSystem->snooper, address, cacheSystem->blockDataSize);
+		if (!otherCacheContains){
+			/*Check Main memory?*/
+			/*Your Code Here*/
+			retVal = readFromCache(dstCache,address,size);
+			setState(dstCache,dstCacheInfo->blockNumber,EXCLUSIVE);
+		} else{
+			otherCache = getCacheFromID(cacheSystem,newID);
+			otherCacheInfo = findEviction(otherCache,address);
+			offset = getOffset(otherCache,address);
+			retVal = getData(otherCache,offset,otherCacheInfo->blockNumber,size);
+		    uint8_t *temp = fetchBlock(otherCache,otherCache->blockNumber);
+		    writeWholeBlock(dstCache,address,evictionBlockNumber,temp);
+		    writeDataToCache(dstCache,address,retVal,size,getTag(dstCache,address),dstCacheInfo);
+		    setState(dstCache,dstCacheInfo->blockNumber, SHARED);
+		    counter = 0;
+			while (dstCache == NULL && counter < cacheSystem->size) { //Selects destination cache pointer from array of caches pointers
+				if (caches[counter]->ID == ID) {
+					updateState(caches[i]->cache,address,SHARED);
+				}
+				counter++;
+			}
+			free(temp);
+			free(otherCacheInfo);
+		}	
+	}
+	addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
+	free(dstCacheInfo);
 	return retVal;
 }
 
