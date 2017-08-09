@@ -46,7 +46,8 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		addToSnooper(cacheSystem->snooper,address,ID,cacheSystem->blockDataSize);
         free(dstCacheInfo);
         return retVal;
-	} else {
+	}
+    else {
         uint32_t tempTag = extractTag(dstCache, evictionBlockNumber);
         uint32_t oldAddress = extractAddress(dstCache, tempTag, evictionBlockNumber, 0);
 		/*How do you need to update the snooper?*/
@@ -59,8 +60,8 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
         }else{
             int newID = returnIDIf1(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
             if (newID+1 != 0){
-                otherCache = getCacheFromID(cacheSystem,newID);
-                updateState(otherCache,oldAddress,INVALID);
+                cache_t* other = getCacheFromID(cacheSystem,newID);
+                updateState(other,oldAddress,INVALID);
             }
         }
 		
@@ -74,7 +75,8 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 			/*Your Code Here*/
 			retVal = readFromCache(dstCache,address,size);
 			setState(dstCache,dstCacheInfo->blockNumber,EXCLUSIVE);
-		} else{
+		}
+        else{
 			otherCache = getCacheFromID(cacheSystem,newID);
 			otherCacheInfo = findEviction(otherCache,address);
 			offset = getOffset(otherCache,address);
@@ -86,11 +88,11 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		    setState(dstCache,dstCacheInfo->blockNumber, SHARED);
             free(temp);
             for(uint8_t i =0;i<cacheSystem->size;i++){
-                if (caches[counter]->ID != ID)
-                    updateState(caches[counter]->cache,address,SHARED);
+                if (caches[i]->ID != ID)
+                    updateState(caches[i]->cache,address,SHARED);
             }
 			
-			//free(otherCacheInfo);
+			free(otherCacheInfo);
 		}	
 	}
 	addToSnooper(cacheSystem->snooper, address, ID, cacheSystem->blockDataSize);
