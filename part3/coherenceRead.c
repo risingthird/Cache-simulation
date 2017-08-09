@@ -85,15 +85,8 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		    writeDataToCache(dstCache,address,retVal,size,tempTag2,dstCacheInfo);
 		    setState(dstCache,dstCacheInfo->blockNumber, SHARED);
             free(temp);
-		    //counter = 0;
-//			while (dstCache == NULL && counter < cacheSystem->size) { //Selects destination cache pointer from array of caches pointers
-//				if (caches[counter]->ID != ID) {
-//					updateState(caches[counter]->cache,address,SHARED);
-//				}
-//				counter++;
-//			}
             for(uint8_t i =0;i<cacheSystem->size;i++){
-                if (caches[counter]->ID != ID) {
+                if (caches[counter]->ID != ID) 
                     updateState(caches[counter]->cache,address,SHARED);
             }
 			
