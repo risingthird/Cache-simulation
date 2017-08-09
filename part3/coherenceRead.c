@@ -36,7 +36,7 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		}
 		counter++;
 	}
-	dstCache = getCacheFromID(cacheSystem,ID);
+	//dstCache = getCacheFromID(cacheSystem,ID);
 	dstCacheInfo = findEviction(dstCache, address); //Finds block to evict and potential match
 	evictionBlockNumber = dstCacheInfo->blockNumber;
 	if (dstCacheInfo->match) {
@@ -47,23 +47,28 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
         free(dstCacheInfo);
         return retVal;
 	} else {
-		uint32_t oldAddress = extractAddress(dstCache, extractTag(dstCache, evictionBlockNumber), evictionBlockNumber, 0);
+        uint32_t tempTag = extractTag(dstCache, evictionBlockNumber);
+        uint32_t oldAddress = extractAddress(dstCache, tempTag, evictionBlockNumber, 0);
 		/*How do you need to update the snooper?*/
 		/*How do you need to update states for what is getting evicted (don't worry about evicting this will be handled at a later step when you place data in the cache)?*/
 		/*Your Code Here*/
 		removeFromSnooper(cacheSystem->snooper,oldAddress,ID,cacheSystem->blockDataSize);
 		int shared = getShared(dstCache,evictionBlockNumber);
-		if (shared == 1){
-			uint8_t newID = returnFirstCacheID(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
-			if (newID != -1){
-				otherCache = getCacheFromID(cacheSystem,newID);
-				updateState(otherCache,oldAddress,INVALID);
-			}
-		}
+		if (shared == 0){
+    
+        }else{
+            uint8_t newID = returnFirstCacheID(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
+            if (newID+1 != 0){
+                otherCache = getCacheFromID(cacheSystem,newID);
+                updateState(otherCache,oldAddress,INVALID);
+            }
+        }
 		
 		/*Check other caches???*/
 		/*Your Code Here*/
 		uint8_t newID = returnFirstCacheID(cacheSystem->snooper, address, cacheSystem->blockDataSize);
+        if(newID != -1)
+            otherCacheContains = 1;
 		if (!otherCacheContains){
 			/*Check Main memory?*/
 			/*Your Code Here*/
@@ -75,12 +80,13 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 			offset = getOffset(otherCache,address);
 			retVal = getData(otherCache,offset,otherCacheInfo->blockNumber,size);
 		    uint8_t *temp = fetchBlock(otherCache,otherCacheInfo->blockNumber);
+            uint32_t tempTag2 = getTag(dstCache,address);
 		    writeWholeBlock(dstCache,address,evictionBlockNumber,temp);
-		    writeDataToCache(dstCache,address,retVal,size,getTag(dstCache,address),dstCacheInfo);
+		    writeDataToCache(dstCache,address,retVal,size,tempTag2,dstCacheInfo);
 		    setState(dstCache,dstCacheInfo->blockNumber, SHARED);
 		    counter = 0;
 			while (dstCache == NULL && counter < cacheSystem->size) { //Selects destination cache pointer from array of caches pointers
-				if (caches[counter]->ID == ID) {
+				if (caches[counter]->ID != ID) {
 					updateState(caches[counter]->cache,address,SHARED);
 				}
 				counter++;
