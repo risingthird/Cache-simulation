@@ -87,6 +87,7 @@ void cacheSystemWrite(cacheSystem_t* cacheSystem, uint32_t address, uint8_t ID, 
             
             writeDataToCache(dstCache,address,data,size,tagVal,dstCacheInfo);
             free(block);
+            free(otherCacheInfo);
         }
 
 	}

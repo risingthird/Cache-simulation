@@ -57,7 +57,8 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		int shared = getShared(dstCache,evictionBlockNumber);
 		if (shared == 0){
     
-        }else{
+        }
+        else{
             int newID = returnIDIf1(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
             if (newID != -1){
                 cache_t* other = getCacheFromID(cacheSystem,newID);
