@@ -57,7 +57,7 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		if (shared == 0){
     
         }else{
-            int newID = returnFirstCacheID(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
+            int newID = returnIDIf1(cacheSystem->snooper, oldAddress, cacheSystem->blockDataSize);
             if (newID+1 != 0){
                 otherCache = getCacheFromID(cacheSystem,newID);
                 updateState(otherCache,oldAddress,INVALID);
@@ -66,7 +66,7 @@ uint8_t* cacheSystemRead(cacheSystem_t* cacheSystem, uint32_t address, uint8_t I
 		
 		/*Check other caches???*/
 		/*Your Code Here*/
-		uint8_t newID = returnFirstCacheID(cacheSystem->snooper, address, cacheSystem->blockDataSize);
+		int newID = returnFirstCacheID(cacheSystem->snooper, address, cacheSystem->blockDataSize);
         if(newID != -1)
             otherCacheContains = true;
 		if (!otherCacheContains){
