@@ -276,6 +276,7 @@ void updateState(cache_t* cache, uint32_t address, enum state otherState) {
 	uint32_t tag = getTag(cache,address);
 	uint32_t idx = getIndex(cache,address);
 	decrementLRU(cache, tag, idx, oldLRU);
+    free(next);
 	/* Your Code Here. */
 }
 
